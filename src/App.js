@@ -11,13 +11,35 @@ import React, { useState } from "react";
 import Home from "./component/Home";
 import About from "./component/About";
 import News from "./component/News";
+import Set from "./component/Set";
+import Help from "./component/Help";
+import Logs from "./component/Logs";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp, faTimes } from '@fortawesome/free-solid-svg-icons';
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
+  // 확장된 메뉴를 추적하는 상태
+  const [expandedMenu, setExpandedMenu] = useState([]); 
+
+  // 탭 리스트
   const [tabs, setTabs] = useState(['Home']);
+  // 탭 활성화
   const [activeTab, setActiveTab] = useState('Home');
+  // 탭 내용
   const [tabContents, setTabContents] = useState({
     Home: <Home />,
-  }); // 각 탭에 해당하는 콘텐츠 저장
+  });
+
+  
+  // 메뉴 항목 확장/축소 토글 함수
+  const handleMenuToggle = (menu) => {
+    setExpandedMenu( expandedMenu.includes(menu) ? expandedMenu.filter((item) => item !== menu) : [...expandedMenu, menu] );
+  };
+
 
   // 탭 추가
   const addTab = (menu) => {
@@ -25,7 +47,7 @@ function App() {
       setTabs([...tabs, menu]); // 새로운 탭 추가
       setTabContents({
         ...tabContents,
-        [menu]: renderTabContent(menu),
+        [menu]: getTabContent(menu),
       });
     }
     setActiveTab(menu); // 새 탭 활성화
@@ -44,7 +66,8 @@ function App() {
 
   // 탭에 맞는 컴포넌트를 렌더링하는 함수
   const menuList = ['Home', 'About', 'News'];
-  const renderTabContent = (menu) => {
+  const menuList2 = ['Set', 'Help', 'Logs'];
+  const getTabContent = (menu) => {
     switch (menu) {
       case "Home":
         return <Home />;
@@ -52,6 +75,12 @@ function App() {
         return <About />;
       case "News":
         return <News />;
+      case "Set":
+        return <Set />;
+      case "Help":
+        return <Help />;
+      case "Logs":
+        return <Logs />;
       default: 
         return <div>Select a menu</div>;
     }
@@ -69,17 +98,56 @@ function App() {
       <div className="aside">
         <h3>Menu</h3>
         <ul>
-          {menuList.map((menu) => (
-            <li key={menu} onClick={() => addTab(menu)}>
-              {menu}
-            </li>
-          ))}
+
+          {/* expended Main Menu */}
+          <li 
+            className={expandedMenu.includes('main') ? 'expanded' : ''}
+            onClick={() => handleMenuToggle('main')}
+          >
+            Main Menu
+            <FontAwesomeIcon 
+              icon={expandedMenu.includes('main') ? faChevronUp : faChevronDown} 
+              className="menu-icon" 
+            />
+          </li>
+          {expandedMenu.includes('main') && (
+            <ul className="submenu">
+              {menuList.map((menu) => (
+                <li key={menu} onClick={() => addTab(menu)}>
+                  {menu}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* expended Main Menu */}
+          <li 
+            className={expandedMenu.includes('main2') ? 'expanded' : ''}
+            onClick={() => handleMenuToggle('main2')}
+          >
+            Main Menu2
+            <FontAwesomeIcon 
+              icon={expandedMenu.includes('main2') ? faChevronUp : faChevronDown} 
+              className="menu-icon" 
+            />
+          </li>
+          {expandedMenu.includes('main2') && (
+            <ul className="submenu">
+              {menuList2.map((menu) => (
+                <li key={menu} onClick={() => addTab(menu)}>
+                  {menu}
+                </li>
+              ))}
+            </ul>
+          )}
+
         </ul>
       </div>
 
       {/* 메인화면 */}
       <div className="article">
 
+        {/* 탭 리스트 */}
         <div className="tabs">
           {tabs.map((tab) => (
             <div
@@ -95,12 +163,15 @@ function App() {
                     e.stopPropagation(); // 부모 탭 클릭 이벤트 차단
                     removeTab(tab);
                   }}
-                >X</button>
+                >
+                 <FontAwesomeIcon icon={faTimes} />
+                </button>
               )}
             </div>
           ))}
         </div>
 
+        {/* 탭 내용 */}
         <div className="tab-content">
           {tabs.map((tab) => (
             <div
@@ -111,6 +182,7 @@ function App() {
             </div>
           ))}
         </div>
+
       </div>
 
       {/* 푸터 */}

@@ -78,7 +78,50 @@ code {
   text-align: center;
 }
 
-/* 기본 레이아웃 스타일 */
+
+/* 메뉴 항목 */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  cursor: pointer;
+  padding: 8px;
+  margin: 5px 0;
+  background-color: #ddd;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between; /* 메뉴 항목과 아이콘을 양쪽 끝으로 배치 */
+  align-items: center;
+}
+
+
+/* 아이콘을 우측에 정렬 */
+.menu-icon {
+  margin-left: auto;
+}
+
+/* 확장된 서브 메뉴 스타일 */
+.submenu {
+  margin-left: 20px;
+}
+
+.submenu li {
+  background-color: #e1e1e1;
+}
+
+.submenu li:hover {
+  background-color: #ccc;
+}
+
+.expanded {
+  background-color: #007bff; /* 활성화된 메뉴 강조 */
+  color: white;
+}
+
+
+/* 탭 스타일 */
 
 .tab-pane {
   display: none; /* 기본적으로 숨김 */
