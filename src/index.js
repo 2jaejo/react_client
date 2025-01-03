@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'tui-grid/dist/tui-grid.css';
 import './index.css';
 
-import 'tui-grid/dist/tui-grid.css'; // tui-grid 패키지의 CSS 파일
-
-
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 // React 17 이하에서는 ReactDOM.render 사용
 ReactDOM.render(<App />, document.getElementById('root'));

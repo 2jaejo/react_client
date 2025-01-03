@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { Grid } from 'tui-grid/dist/tui-grid.js';
+import Grid from "@toast-ui/react-grid";
 
 function Home() {
   const [inputValue, setInputValue] = useState("");
@@ -12,24 +12,10 @@ function Home() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-
-  // const grid = new Grid({
-  //   el: document.getElementById('grid-test'),
-  //   columns:[
-  //     {header:'1.header', name:'1.name'},
-  //     {header:'2.header', name:'2.name'},
-  //     {header:'3.header', name:'3.name'},
-  //     {header:'4.header', name:'4.name'},
-  //   ],
-  //   data:[
-  //     {name:"name1"},
-  //     {name:"name2"},
-  //     {name:"name3"}
-  //   ]
-
-  // });
-  // grid.resetData();
-
+  const columns = [
+    { header: "ID", name: "id" },
+    { header: "NAME", name: "name" },
+  ];
 
   return (
     <div>
@@ -44,16 +30,21 @@ function Home() {
         />
       </label>
       <p>Input value: {inputValue}</p>
-
-      <div className="server-data">
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>{item.name}</li>
-          ))}
-        </ul>
-      </div>
       
-      <div id="grid-test"></div>
+      <button type="button" className="btn btn-primary">
+        저장
+      </button>
+
+      <Grid
+        data={items}
+        columns={columns}
+        rowHeight={25}
+        bodyHeight={100}
+        heightResizable={true}
+        rowHeaders={["rowNum"]}
+        F
+      />
+
     </div>
   );
 }

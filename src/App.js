@@ -18,9 +18,6 @@ import Logs from "./component/Logs";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
 function App() {
   // 확장된 메뉴를 추적하는 상태
   const [expandedMenu, setExpandedMenu] = useState([]); 
