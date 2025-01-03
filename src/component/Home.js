@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@toast-ui/react-grid";
 
 function Home() {
+
   const [inputValue, setInputValue] = useState("");
 
   const [items, setItems] = useState([]);
@@ -17,6 +18,45 @@ function Home() {
     { header: "NAME", name: "name" },
   ];
 
+  // 저장
+  const btnSave = (ev) => {
+    console.log(ev);
+    console.log(inputValue);
+
+    let params = {
+      name: inputValue
+    };
+    fetch("/api/items", {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify(params)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  };
+
+  // 삭제
+  const btnDel = (ev) => {
+    console.log(ev);
+    console.log(inputValue);
+
+    fetch(`/api/items/${inputValue}`, {
+      method:'DELETE'
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  };
+
   return (
     <div>
       <h2>Home</h2>
@@ -31,9 +71,10 @@ function Home() {
       </label>
       <p>Input value: {inputValue}</p>
       
-      <button type="button" className="btn btn-primary">
-        저장
-      </button>
+      <div className="p-2">
+        <button type="button" className="btn btn-primary me-2" onClick={(ev) => btnSave(ev)}> 저장 </button>
+        <button type="button" className="btn btn-danger" onClick={(ev) => btnDel(ev)}> 삭제 </button>
+      </div>
 
       <Grid
         data={items}
@@ -42,7 +83,6 @@ function Home() {
         bodyHeight={100}
         heightResizable={true}
         rowHeaders={["rowNum"]}
-        F
       />
 
     </div>
