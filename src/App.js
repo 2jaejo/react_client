@@ -25,14 +25,13 @@ import Logs from "./pages/Logs";
 
 function App() {
   // 확장된 메뉴를 추적하는 상태
-  const [expandedMenu, setExpandedMenu] = useState([]); 
+  const [expandedMenu, setExpandedMenu] = useState(['main']); 
   // 탭 리스트
   const [tabs, setTabs] = useState(['Home']);
   // 탭 활성화
   const [activeTab, setActiveTab] = useState('Home');
   // 탭 내용 - Home 기본값
   const [tabContents, setTabContents] = useState({ Home: <Home />,}); 
-
   
   // 메뉴 항목 확장/축소 토글 함수
   const handleMenuToggle = (menu) => {
@@ -63,26 +62,28 @@ function App() {
   };
 
   // 탭에 맞는 컴포넌트를 렌더링하는 함수
-  const menuList = ['Home', 'About', 'News'];
-  const menuList2 = ['Set', 'Help', 'Logs'];
   const getTabContent = (menu) => {
     switch (menu) {
       case "Home":
         return <Home />;
-      case "About":
-        return <About />;
-      case "News":
-        return <News />;
-      case "Set":
-        return <Set />;
-      case "Help":
-        return <Help />;
+        case "About":
+          return <About />;
+          case "News":
+            return <News />;
+            case "Set":
+              return <Set />;
+              case "Help":
+                return <Help />;
       case "Logs":
         return <Logs />;
-      default: 
+        default: 
         return <div>Select a menu</div>;
-    }
-  };
+      }
+    };
+    
+  // 메뉴 분류
+  const menuList = ['Home', 'About', 'News'];
+  const menuList2 = ['Set', 'Help', 'Logs'];
 
   return (
     <div className="app">
