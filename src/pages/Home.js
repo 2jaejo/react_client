@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@toast-ui/react-grid";
+import axiosInstance from "../utils/Axios";
+
 
 function Home() {
 
@@ -20,15 +22,15 @@ function Home() {
 
   //조회
   const readData = () => {
-    fetch(`/api/items/`, {method:'GET'})
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      if (Array.isArray(data)){
-        setItems(data);
-      }
-    })
-    .catch((error) => console.error("Error fetching data:", error));
+    axiosInstance
+      .get("/api/items")
+      .then((res) => {
+        if (Array.isArray(res.data)){
+          setItems(res.data);
+        }
+      })
+      .catch((error) => console.error("Error fetching data:", error));    
+
   };
 
   // 추가
@@ -37,19 +39,12 @@ function Home() {
       name: inputName
     };
 
-    fetch("/api/items", {
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify(params)
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    axiosInstance
+      .post("/api/items", JSON.stringify(params))
+      .then((res) => {
         readData();
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching data:", error));    
   };
 
   // 수정
@@ -58,30 +53,22 @@ function Home() {
       id: inputId,
       name: inputName
     };
-
-    fetch("/api/items", {
-      method:'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify(params)
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    axiosInstance
+      .put("/api/items", JSON.stringify(params))
+      .then((res) => {
         readData();
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching data:", error));    
   };
 
   // 삭제
   const deleteData = (ev) => {
-
-    fetch(`/api/items/${inputId}`, {method:'DELETE'})
-      .then(() => {
+    axiosInstance
+      .delete(`/api/items/${inputId}`)
+      .then((res) => {
         readData();
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching data:", error));    
   };
 
   return (

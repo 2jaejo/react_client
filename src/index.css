@@ -16,7 +16,7 @@ code {
 /* Reset */
 /* 전체 레이아웃 스타일 */
 
-.app {
+.main {
   display: grid;
   grid-template-areas:
     "header"
@@ -31,7 +31,7 @@ code {
 }
 
 @media (min-width: 768px) {
-  .app {
+  .main {
     grid-template-areas:
       "header header"
       "nav nav"
