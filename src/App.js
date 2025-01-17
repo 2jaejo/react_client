@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // 로고
 // import logo from "./logo.svg";
@@ -10,10 +10,11 @@ import Nav from "./layout/Nav";
 // import Article from "./layout/Article";
 import Footer from "./layout/Footer";
 
-// 메뉴 분류
+// 컴포넌트
 import DivMenu from "./components/DivMenu";
 import TabList from "./components/TabList";
 import TabContent from "./components/TabContent";
+import Login from "./components/Login";
 
 // 페이지
 import Home from "./pages/Home";
@@ -23,7 +24,25 @@ import Set from "./pages/Set";
 import Help from "./pages/Help";
 import Logs from "./pages/Logs";
 
+// 유틸
+import { checkToken } from './utils/CheckToken'; // 토큰 검증 함수
+
+
 function App() {
+  // 로그인 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const handleLogin = (status) => {
+    setIsLoggedIn(status);
+  };
+
+  // 앱이 로드될 때, 토큰이 있는지 확인하고 유효성 검사
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token && checkToken(token)) {
+      setIsLoggedIn(true); // 유효한 토큰이 있으면 로그인 상태로 설정
+    }
+  }, []);
+
   // 확장된 메뉴를 추적하는 상태
   const [expandedMenu, setExpandedMenu] = useState(['main']); 
   // 탭 리스트
@@ -86,61 +105,60 @@ function App() {
   const menuList2 = ['Set', 'Help', 'Logs'];
 
   return (
-    <div className="app">
-      {/* 헤더 */}
-      <Header />
-
-
-      {/* 내비게이션 */}
-      <Nav />
-
-
-      {/* 메뉴리스트 */}
-      <div className="aside">
-        <ul>
-          {/* expended Main Menu */}
-          <DivMenu
-            title={'Main Menu1'}
-            className={"main"}
-            menuList={menuList}
-            expandedMenu={expandedMenu}
-            handleMenuToggle={handleMenuToggle}
-            addTab={addTab}
-          />
-          {/* expended Main Menu */}
-          <DivMenu
-            title={'Main Menu2'}
-            className={"main2"}
-            menuList={menuList2}
-            expandedMenu={expandedMenu}
-            handleMenuToggle={handleMenuToggle}
-            addTab={addTab}
-          />
-        </ul>
-      </div>
-
-
-      {/* 메인화면 */}
-      <div className="article">
-        {/* 탭 리스트 */}
-        <TabList
-          tabs={tabs}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          removeTab={removeTab}
-        />
-
-        {/* 탭 내용 */}
-        <TabContent 
-          tabs={tabs} 
-          activeTab={activeTab} 
-          tabContents={tabContents} 
-        />
-      </div>
-
-
-      {/* 푸터 */}
-      <Footer />
+    <div>
+      {!isLoggedIn ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <div className="app">
+          {/* 헤더 */}
+          <Header />
+  
+          {/* 내비게이션 */}
+          <Nav />
+  
+          {/* 메뉴리스트 */}
+          <div className="aside">
+            <ul>
+              {/* expended Main Menu */}
+              <DivMenu
+                title={'Main Menu1'}
+                className={"main"}
+                menuList={menuList}
+                expandedMenu={expandedMenu}
+                handleMenuToggle={handleMenuToggle}
+                addTab={addTab}
+              />
+              {/* expended Main Menu */}
+              <DivMenu
+                title={'Main Menu2'}
+                className={"main2"}
+                menuList={menuList2}
+                expandedMenu={expandedMenu}
+                handleMenuToggle={handleMenuToggle}
+                addTab={addTab}
+              />
+            </ul>
+          </div>
+  
+          {/* 메인화면 */}
+          <div className="article">
+            <TabList
+              tabs={tabs}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              removeTab={removeTab}
+            />
+            <TabContent 
+              tabs={tabs} 
+              activeTab={activeTab} 
+              tabContents={tabContents} 
+            />
+          </div>
+  
+          {/* 푸터 */}
+          <Footer />
+        </div>
+      )}
 
     </div>
   );

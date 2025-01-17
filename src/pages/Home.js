@@ -7,13 +7,15 @@ function Home() {
   const [inputName, setInputValue2] = useState("");
 
   const [items, setItems] = useState([]);
+
   useEffect(() => {
     readData();
   }, []);
 
   const columns = [
-    { header: "ID", name: "id" },
-    { header: "NAME", name: "name" },
+    { header: "아이디", name: "id" },
+    { header: "이름", name: "user_nm" },
+    { header: "이메일", name: "user_mail" },
   ];
 
   //조회
@@ -22,7 +24,9 @@ function Home() {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      setItems(data);
+      if (Array.isArray(data)){
+        setItems(data);
+      }
     })
     .catch((error) => console.error("Error fetching data:", error));
   };
