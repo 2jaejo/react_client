@@ -20,7 +20,7 @@ const LoginForm = ({ onLogin }) => {
         console.log(data.token);
         // 성공적으로 로그인하면 토큰을 로컬스토리지에 저장
         localStorage.setItem('accessToken', data.token);
-        onLogin(true);
+        onLogin(2);
       })
       .catch((error) => console.error("Login failed:", error));
 

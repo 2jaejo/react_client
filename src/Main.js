@@ -29,7 +29,7 @@ import axiosInstance from "./utils/Axios";
 
 function Main() {
   // 로그인 상태
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(0);
   const handleLogin = (status) => {
     setIsLoggedIn(status);
   };
@@ -56,13 +56,14 @@ function Main() {
     axiosInstance
       .get("/auth/validate")
       .then((res) => {
-        setIsLoggedIn(true);
+        console.log();
+        setIsLoggedIn(2);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error)
-        setIsLoggedIn(false);
+        console.log();
+        console.error("Error fetching data:", error);
+        setIsLoggedIn(1);
       });
-  
   }, []);
 
   // 로그아웃
@@ -127,61 +128,73 @@ function Main() {
   const menuList = ["Home", "About", "News"];
   const menuList2 = ["Set", "Help", "Logs"];
 
+  const renderContent = (stat) => {
+    switch (stat) {
+      case 0:
+        return <About />;
+      case 1:
+        return <Login />;
+      case 2:
+        return (
+          <div className="main">
+            {/* 헤더 */}
+            <Header />
+
+            {/* 내비게이션 */}
+            <Nav />
+
+            {/* 메뉴리스트 */}
+            <div className="aside">
+              <ul>
+                {/* expended Main Menu */}
+                <DivMenu
+                  title={"Main Menu1"}
+                  className={"main"}
+                  menuList={menuList}
+                  expandedMenu={expandedMenu}
+                  handleMenuToggle={handleMenuToggle}
+                  addTab={addTab}
+                />
+                {/* expended Main Menu */}
+                <DivMenu
+                  title={"Main Menu2"}
+                  className={"main2"}
+                  menuList={menuList2}
+                  expandedMenu={expandedMenu}
+                  handleMenuToggle={handleMenuToggle}
+                  addTab={addTab}
+                />
+              </ul>
+            </div>
+
+            {/* 메인화면 */}
+            <div className="article">
+              <TabList
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                removeTab={removeTab}
+              />
+              <TabContent
+                tabs={tabs}
+                activeTab={activeTab}
+                tabContents={tabContents}
+              />
+            </div>
+
+            {/* 푸터 */}
+            <Footer />
+          </div>
+        );
+      default:
+        return <div></div>;
+    }
+  };
+
   return (
     <div>
-      {!isLoggedIn ? (
-        <Login onLogin={handleLogin} />
-      ) : (
-        <div className="main">
-          {/* 헤더 */}
-          <Header />
-
-          {/* 내비게이션 */}
-          <Nav />
-
-          {/* 메뉴리스트 */}
-          <div className="aside">
-            <ul>
-              {/* expended Main Menu */}
-              <DivMenu
-                title={"Main Menu1"}
-                className={"main"}
-                menuList={menuList}
-                expandedMenu={expandedMenu}
-                handleMenuToggle={handleMenuToggle}
-                addTab={addTab}
-              />
-              {/* expended Main Menu */}
-              <DivMenu
-                title={"Main Menu2"}
-                className={"main2"}
-                menuList={menuList2}
-                expandedMenu={expandedMenu}
-                handleMenuToggle={handleMenuToggle}
-                addTab={addTab}
-              />
-            </ul>
-          </div>
-
-          {/* 메인화면 */}
-          <div className="article">
-            <TabList
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              removeTab={removeTab}
-            />
-            <TabContent
-              tabs={tabs}
-              activeTab={activeTab}
-              tabContents={tabContents}
-            />
-          </div>
-
-          {/* 푸터 */}
-          <Footer />
-        </div>
-      )}
+      {renderContent(isLoggedIn)}
+      
     </div>
   );
 }
