@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL: '/', // 서버의 기본 URL
@@ -25,24 +24,28 @@ axiosInstance.interceptors.request.use(
 );
 
 // 응답 인터셉터: 토큰 갱신 또는 에러 처리
-axiosInstance.interceptors.response.use(
-  (response) => {
-    console.log("response");
-    console.log(response);
-    return response; // 정상 응답은 그대로 반환
-  },
-  (error) => {
-    if (error.response) {
-      console.log("error");
-      console.log(error);
+export const setupAxiosInterceptor = (navigate) => {
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      console.log("response");
+      console.log(response);
+      return response; // 정상 응답은 그대로 반환
+    },
+    (error) => {
+      if (error.response) {
+        console.log("error");
+        console.log(error);
 
-      // 인증 오류일 경우 
-      localStorage.removeItem('accessToken');
-      // window.location.reload();
-  
+        if(true){
+          console.log("인터셉터 리스폰스 에러");
+          localStorage.removeItem('accessToken');
+          navigate("/login");
+        }
+    
+      }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
-  }
-);
+  );
+};
 
 export default axiosInstance;

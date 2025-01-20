@@ -1,12 +1,15 @@
 // LoginForm.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import styles from '../css/Login.module.css';
 import axiosInstance from "../utils/Axios";
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = () => {
   const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('admin');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +23,7 @@ const LoginForm = ({ onLogin }) => {
         console.log(data.token);
         // 성공적으로 로그인하면 토큰을 로컬스토리지에 저장
         localStorage.setItem('accessToken', data.token);
-        onLogin(2);
+        navigate('/'); 
       })
       .catch((error) => console.error("Login failed:", error));
 

@@ -1,8 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WebSocket from "../components/WebSocket";
+
+// 유틸
+import axiosInstance from "../utils/Axios";
 
 function About() {
   const [inputValue, setInputValue] = useState("");
+  const [isConnect, setIsConnect] = useState(false);
+
+  useEffect(() => {
+    axiosInstance
+      .get("/auth/validate")
+      .then((res) => {
+        setIsConnect(true);
+      })
+      .catch((error) => {
+        setIsConnect(false);
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <div>
@@ -18,7 +34,8 @@ function About() {
       </label>
       <p>Input value: {inputValue}</p>
 
-      <WebSocket />
+      {isConnect ? (<WebSocket />) : (<div></div>)}
+      
     </div>
   );
 }

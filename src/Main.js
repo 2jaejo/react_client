@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom'; // v6: Routes와 Route 사용
 
 // 로고
 // import logo from "./logo.svg";
@@ -25,14 +26,15 @@ import Help from "./pages/Help";
 import Logs from "./pages/Logs";
 
 // 유틸
-import axiosInstance from "./utils/Axios";
+import { setupAxiosInterceptor } from "./utils/Axios";
 
 function Main() {
-  // 로그인 상태
-  const [isLoggedIn, setIsLoggedIn] = useState(0);
-  const handleLogin = (status) => {
-    setIsLoggedIn(status);
-  };
+  const navigate = useNavigate();
+  // 인터셉터 설정
+  React.useEffect(() => {
+    setupAxiosInterceptor(navigate);
+  }, [navigate]);
+
 
   // 확장된 메뉴를 추적하는 상태
   const [expandedMenu, setExpandedMenu] = useState(["main"]);
@@ -52,35 +54,21 @@ function Main() {
     );
   };
 
-  useEffect(() => {
-    axiosInstance
-      .get("/auth/validate")
-      .then((res) => {
-        console.log();
-        setIsLoggedIn(2);
-      })
-      .catch((error) => {
-        console.log();
-        console.error("Error fetching data:", error);
-        setIsLoggedIn(1);
-      });
-  }, []);
-
   // 로그아웃
-  const logout = async () => {
-    try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include", // 쿠키 포함
-      });
+  // const logout = async () => {
+  //   try {
+  //     await fetch("/api/auth/logout", {
+  //       method: "POST",
+  //       credentials: "include", // 쿠키 포함
+  //     });
 
-      // 클라이언트 상태 초기화
-      localStorage.removeItem("accessToken");
-      alert("Logged out successfully!");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
+  //     // 클라이언트 상태 초기화
+  //     localStorage.removeItem("accessToken");
+  //     alert("Logged out successfully!");
+  //   } catch (error) {
+  //     console.error("Error logging out:", error);
+  //   }
+  // };
 
   // 탭 추가
   const addTab = (menu) => {
@@ -128,73 +116,55 @@ function Main() {
   const menuList = ["Home", "About", "News"];
   const menuList2 = ["Set", "Help", "Logs"];
 
-  const renderContent = (stat) => {
-    switch (stat) {
-      case 0:
-        return <About />;
-      case 1:
-        return <Login />;
-      case 2:
-        return (
-          <div className="main">
-            {/* 헤더 */}
-            <Header />
-
-            {/* 내비게이션 */}
-            <Nav />
-
-            {/* 메뉴리스트 */}
-            <div className="aside">
-              <ul>
-                {/* expended Main Menu */}
-                <DivMenu
-                  title={"Main Menu1"}
-                  className={"main"}
-                  menuList={menuList}
-                  expandedMenu={expandedMenu}
-                  handleMenuToggle={handleMenuToggle}
-                  addTab={addTab}
-                />
-                {/* expended Main Menu */}
-                <DivMenu
-                  title={"Main Menu2"}
-                  className={"main2"}
-                  menuList={menuList2}
-                  expandedMenu={expandedMenu}
-                  handleMenuToggle={handleMenuToggle}
-                  addTab={addTab}
-                />
-              </ul>
-            </div>
-
-            {/* 메인화면 */}
-            <div className="article">
-              <TabList
-                tabs={tabs}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                removeTab={removeTab}
-              />
-              <TabContent
-                tabs={tabs}
-                activeTab={activeTab}
-                tabContents={tabContents}
-              />
-            </div>
-
-            {/* 푸터 */}
-            <Footer />
-          </div>
-        );
-      default:
-        return <div></div>;
-    }
-  };
-
   return (
-    <div>
-      {renderContent(isLoggedIn)}
-      
+    <div className="main">
+      {/* 헤더 */}
+      <Header />
+
+      {/* 내비게이션 */}
+      <Nav />
+
+      {/* 메뉴리스트 */}
+      <div className="aside">
+        <ul>
+          {/* expended Main Menu */}
+          <DivMenu
+            title={"Main Menu1"}
+            className={"main"}
+            menuList={menuList}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          {/* expended Main Menu */}
+          <DivMenu
+            title={"Main Menu2"}
+            className={"main2"}
+            menuList={menuList2}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+        </ul>
+      </div>
+
+      {/* 메인화면 */}
+      <div className="article">
+        <TabList
+          tabs={tabs}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          removeTab={removeTab}
+        />
+        <TabContent
+          tabs={tabs}
+          activeTab={activeTab}
+          tabContents={tabContents}
+        />
+      </div>
+
+      {/* 푸터 */}
+      <Footer />
     </div>
   );
 }

@@ -7,11 +7,13 @@ class WebSocketDemo extends Component {
       messages: [],
     };
     this.socket = null;
+    this.uri = "ws://localhost:5000/";
   }
 
   componentDidMount() {
+    
     // WebSocket 연결
-    this.socket = new WebSocket('ws://localhost:5000');
+    this.socket = new WebSocket(this.uri);
 
     // WebSocket 이벤트 핸들러
     this.socket.onopen = () => {
