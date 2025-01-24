@@ -18,7 +18,12 @@ class WebSocketDemo extends Component {
     // WebSocket 이벤트 핸들러
     this.socket.onopen = () => {
       console.log('WebSocket 연결 성공');
-      this.socket.send('안녕하세요, 서버!');
+      // 특정 센서 구독 요청
+      const subscribeMessage = {
+        action: 'subscribe', // 구독 요청
+        sensors: ['sensor1', 'sensor3'], // 구독할 센서 선택
+      };
+      this.socket.send(JSON.stringify(subscribeMessage));
     };
 
     this.socket.onmessage = (event) => {
