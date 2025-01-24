@@ -15,7 +15,6 @@ import Footer from "./layout/Footer";
 import DivMenu from "./components/DivMenu";
 import TabList from "./components/TabList";
 import TabContent from "./components/TabContent";
-import Login from "./components/Login";
 
 // 페이지
 import Home from "./pages/Home";
