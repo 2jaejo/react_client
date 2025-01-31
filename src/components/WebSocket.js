@@ -8,6 +8,7 @@ class WebSocketDemo extends Component {
     };
     this.socket = null;
     this.uri = "ws://localhost:5000/";
+    this.subs = ['sensor1', 'sensor2', 'sensor3', 'ns=2;i=5', 'ns=2;i=6'];
   }
 
   componentDidMount() {
@@ -21,7 +22,7 @@ class WebSocketDemo extends Component {
       // 특정 센서 구독 요청
       const subscribeMessage = {
         action: 'subscribe', // 구독 요청
-        sensors: ['sensor1', 'sensor3'], // 구독할 센서 선택
+        sensors: this.subs, // 구독할 센서 선택
       };
       this.socket.send(JSON.stringify(subscribeMessage));
     };
@@ -29,7 +30,8 @@ class WebSocketDemo extends Component {
     this.socket.onmessage = (event) => {
       console.log('서버 메시지:', event.data);
       this.setState((prevState) => ({
-        messages: [...prevState.messages, event.data],
+        // messages: [...prevState.messages, event.data],
+        messages: [event.data],
       }));
     };
 

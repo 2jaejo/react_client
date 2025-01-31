@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'; // v6: Routes와 Route 사용
 
 // 레이아웃
 import Header from "./layout/Header";
-import Nav from "./layout/Nav";
+import Navi from "./layout/Navi";
 // import Aside from "./layout/Aside";
 // import Article from "./layout/Article";
 import Footer from "./layout/Footer";
@@ -36,7 +36,7 @@ function Main() {
 
 
   // 확장된 메뉴를 추적하는 상태
-  const [expandedMenu, setExpandedMenu] = useState(["main"]);
+  const [expandedMenu, setExpandedMenu] = useState(["menu1"]);
   // 탭 리스트
   const [tabs, setTabs] = useState(["Home"]);
   // 탭 활성화
@@ -121,24 +121,24 @@ function Main() {
       <Header />
 
       {/* 내비게이션 */}
-      <Nav />
+      <Navi />
 
       {/* 메뉴리스트 */}
       <div className="aside">
         <ul>
-          {/* expended Main Menu */}
+          {/* expended Menu */}
           <DivMenu
             title={"Main Menu1"}
-            className={"main"}
+            className={"menu1"}
             menuList={menuList}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
             addTab={addTab}
           />
-          {/* expended Main Menu */}
+          {/* expended Menu */}
           <DivMenu
             title={"Main Menu2"}
-            className={"main2"}
+            className={"menu2"}
             menuList={menuList2}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
