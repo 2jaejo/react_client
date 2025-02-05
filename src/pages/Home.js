@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@toast-ui/react-grid";
 import axiosInstance from "../utils/Axios";
-
+import SearchBar from "../components/SearchBar";
 
 function Home() {
+  const [searchQuery, setSearchQuery] = useState({});
+  
+  // 검색 버튼 클릭 시 호출되는 함수
+  const handleSearch = (query) => {
+    console.log("검색어:", query);
+    setSearchQuery(query);
+    // 실제 검색 처리 로직을 여기에 추가
+  };
 
   const [inputId, setInputValue] = useState("");
   const [inputName, setInputValue2] = useState("");
@@ -73,8 +81,9 @@ function Home() {
 
   return (
     <div>
-      <h2>Home</h2>
-      <p>This is the Home page.</p>
+      <SearchBar onSearch={handleSearch} />
+      <p>SearchBar 컴포넌트에서 전달된 데이터: {JSON.stringify(searchQuery, null, 2)}</p>
+    
       <label>
         Enter some id:
         <input

@@ -7,8 +7,8 @@ class WebSocketDemo extends Component {
       messages: [],
     };
     this.socket = null;
-    this.uri = "ws://localhost:5000/";
-    this.subs = ['sensor1', 'sensor2', 'sensor3', 'ns=2;i=5', 'ns=2;i=6'];
+    this.uri = "ws://localhost:8002/";
+    this.subs = ['sensor1', 'sensor2', 'ns=2;i=5', 'ns=2;i=6'];
   }
 
   componentDidMount() {

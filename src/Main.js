@@ -128,7 +128,7 @@ function Main() {
         <ul>
           {/* expended Menu */}
           <DivMenu
-            title={"Main Menu1"}
+            title={"Menu1"}
             className={"menu1"}
             menuList={menuList}
             expandedMenu={expandedMenu}
@@ -137,7 +137,7 @@ function Main() {
           />
           {/* expended Menu */}
           <DivMenu
-            title={"Main Menu2"}
+            title={"Menu2"}
             className={"menu2"}
             menuList={menuList2}
             expandedMenu={expandedMenu}

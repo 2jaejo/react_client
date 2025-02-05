@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import SearchBar from "../components/SearchBar";
 
 function Set() {
-  const [inputValue, setInputValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState({});
+
+  // 검색 버튼 클릭 시 호출되는 함수
+  const handleSearch = (query) => {
+    console.log("검색어:", query);
+    setSearchQuery(query);
+    // 실제 검색 처리 로직을 여기에 추가
+  };
 
   return (
     <div>
-      <h2>Set</h2>
-      <p>This is the Set page.</p>
-      <label>
-        Enter some text: 
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-      </label>
-      <p>Input value: {inputValue}</p>
+      <SearchBar onSearch={handleSearch} />
+      <p>SearchBar 컴포넌트에서 전달된 데이터: {JSON.stringify(searchQuery, null, 2)}</p>
     </div>
   );
 }

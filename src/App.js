@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'; // v6: Routes와 Route 사용
 
 import Main from './Main'; 
@@ -10,6 +10,7 @@ import axiosInstance from "./utils/Axios";
 
 // 보호된 메인 컴포넌트 (로그인 필요)
 const ProtectedPage = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const ProtectedPage = () => {
       .get("/auth/validate")
       .then((res) => {
         console.log("app.js validate ok");
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -24,7 +26,9 @@ const ProtectedPage = () => {
       });
   }, [navigate]);
 
-  return <Main />
+  if (loading) return <div></div>;
+
+  return <Main />;
 };
 
 function App() {
@@ -32,9 +36,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route index path="/" element={<ProtectedPage />} />
+        <Route index path="/login" element={<Login />} />
+        <Route path="/" element={<ProtectedPage />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
