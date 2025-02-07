@@ -8,7 +8,7 @@ import Login from './components/Login';
 // 유틸
 import axiosInstance from "./utils/Axios";
 // 테마
-import { ThemeProvider } from "./utils/ThemeContext";
+import { GlobalProvider } from "./utils/GlobalContext";
 
 // 보호된 메인 컴포넌트 (로그인 필요)
 const ProtectedPage = () => {
@@ -36,7 +36,7 @@ const ProtectedPage = () => {
 function App() {
   
   return (
-    <ThemeProvider>
+    <GlobalProvider>
       <Router>
         <Routes>
           <Route index path="/login" element={<Login />} />
@@ -44,7 +44,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </Router>
-    </ThemeProvider>
+    </GlobalProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom'; // v6: Routes와 Route 사용
 
 // 로고
@@ -26,6 +26,7 @@ import Logs from "./pages/Logs";
 
 // 유틸
 import { setupAxiosInterceptor } from "./utils/Axios";
+import { GlobalContext } from "./utils/GlobalContext";
 
 function Main() {
   const navigate = useNavigate();
@@ -34,6 +35,8 @@ function Main() {
     setupAxiosInterceptor(navigate);
   }, [navigate]);
 
+  const { isTab, toggleTab } = useContext(GlobalContext);
+  const [key, setKey] = useState("Home"); // key 상태 초기값은 null
 
   // 확장된 메뉴를 추적하는 상태
   const [expandedMenu, setExpandedMenu] = useState(["menu1"]);
@@ -69,8 +72,15 @@ function Main() {
   //   }
   // };
 
+
+
   // 탭 추가
   const addTab = (menu) => {
+    if(!isTab){
+      setKey(menu);
+      return;
+    }
+
     if (!tabs.includes(menu)) {
       setTabs([...tabs, menu]); // 새로운 탭 추가
       setTabContents({
@@ -111,6 +121,8 @@ function Main() {
     }
   };
 
+  let openPage = getTabContent(key);
+
   // 메뉴 분류
   const menuList = ["Home", "About", "News"];
   const menuList2 = ["Set", "Help", "Logs"];
@@ -125,6 +137,9 @@ function Main() {
 
       {/* 메뉴리스트 */}
       <div className="aside">
+        <span>aside 현재 tab: {String(isTab)} </span>
+        <button className="btn btn-secondary" onClick={toggleTab}>탭 변경</button>
+
         <ul>
           {/* expended Menu */}
           <DivMenu
@@ -149,17 +164,25 @@ function Main() {
 
       {/* 메인화면 */}
       <div className="article">
-        <TabList
-          tabs={tabs}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          removeTab={removeTab}
-        />
-        <TabContent
-          tabs={tabs}
-          activeTab={activeTab}
-          tabContents={tabContents}
-        />
+        { isTab ?
+          <div>
+            <TabList
+              tabs={tabs}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              removeTab={removeTab}
+            />
+            <TabContent
+              tabs={tabs}
+              activeTab={activeTab}
+              tabContents={tabContents}
+            />
+          </div>
+        : 
+          <div style={{backgroundColor: "white", padding: "20px"}}>
+            {openPage}
+          </div> 
+        }
       </div>
 
       {/* 푸터 */}
