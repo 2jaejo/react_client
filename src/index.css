@@ -2,10 +2,12 @@
 :root {
   --bg-color: #ffffff;
   --text-color: #000000;
+  --article-color: #51aafd;
 }
 [data-theme="dark"] {
   --bg-color: #121212;
-  --text-color: #ffffff;
+  --text-color: #debd16;
+  --article-color: #053058;
 }
 /* 테마 적용 종료 */
 
@@ -84,7 +86,8 @@ code {
 
 .article {
   grid-area: article;
-  background: #51aafd;
+  background: var(--article-color);
+  transition: background-color 0.3s, color 0.3s;
   padding: 10px;
 }
 
@@ -133,7 +136,7 @@ li {
   background-color: #ccc;
 }
 
-.expanded {
+li.expanded {
   background-color: #007bff; /* 활성화된 메뉴 강조 */
   color: white;
 }
