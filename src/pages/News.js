@@ -50,7 +50,12 @@ function News() {
 
   return (
     <div>
-      <SearchBar id={"news"} fields={fields} reset={true} onSearchData={handleSearchData} />
+      <SearchBar 
+        id={"news"} 
+        fields={fields} 
+        onSearchData={handleSearchData} 
+        reset={true} 
+      />
       <p>
         SearchBar 컴포넌트에서 전달된 데이터:{" "}
         {JSON.stringify(searchQuery, null, 2)}
