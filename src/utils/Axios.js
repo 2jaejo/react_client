@@ -36,8 +36,8 @@ export const setupAxiosInterceptor = (navigate) => {
         console.log("error");
         console.log(error);
 
-        if(true){
-          console.log("인터셉터 리스폰스 에러");
+        if(error.response.status === 401) {
+          console.log("토큰 인증 에러");
           localStorage.removeItem('accessToken');
           navigate("/login");
         }
