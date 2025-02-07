@@ -20,9 +20,6 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
     const str = `${id}_`;
     const filteredValue = Object.entries(inputsState).reduce((acc, [key,value]) => {
       const newKey = key.replace(str, "");
-      console.log(acc);
-      console.log(key);
-      console.log(value);
       acc[newKey] = value; // 기본값 설정
       return acc;
     }, {})

@@ -101,12 +101,12 @@ code {
 
 
 /* 메뉴 항목 */
-ul {
+.aside ul {
   list-style: none;
   padding: 0;
 }
 
-li {
+.aside li {
   cursor: pointer;
   padding: 8px;
   margin: 5px 0;

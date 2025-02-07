@@ -10,6 +10,7 @@ import './index.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
+
 //  fetch 오버라이드 - 인터셉터처럼 사용
 // 기존 fetch 백업
 const originalFetch = window.fetch;
@@ -53,6 +54,8 @@ window.fetch = async (...args) => {
   }
 };
 //  fetch 오버라이드 - 인터셉터처럼 사용
+
+
 
 // React 17 이하에서는 ReactDOM.render 사용
 ReactDOM.render(<App />, document.getElementById('root'));
