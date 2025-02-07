@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from "../utils/ThemeContext";
+import { GlobalContext } from "../utils/GlobalContext";
 
 export default function Header() {
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(GlobalContext);
 
   return (
     <div className='header'>
