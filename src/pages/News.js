@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Grid from "@toast-ui/react-grid";
+import React, { useState, useEffect, StrictMode } from "react";
+
 import SearchBar from "../components/SearchBar";
+import GridExample from "../grid/GridExample";
 
 function News() {
   const [searchQuery, setSearchQuery] = useState({});
@@ -53,7 +54,7 @@ function News() {
     // 기본적인 fetch GET 요청
     fetch("/test/get", {
       method: "POST",
-      headers: {"Content-Type": "application/json",}
+      headers: { "Content-Type": "application/json" },
     })
       .then((response) => {
         // 응답이 성공적일 경우
@@ -70,19 +71,29 @@ function News() {
       });
   };
 
+  
+
+
   return (
     <div>
-      <SearchBar 
-        id={"news"} 
-        fields={fields} 
-        onSearchData={handleSearchData} 
-        reset={true} 
+      <SearchBar
+        id={"news"}
+        fields={fields}
+        onSearchData={handleSearchData}
+        reset={true}
       />
       <p>
         SearchBar 컴포넌트에서 전달된 데이터:{" "}
         {JSON.stringify(searchQuery, null, 2)}
       </p>
-      <button type="button" className="btn btn-primary me-2" onClick={(ev) => test(ev)}> test </button>
+      <button
+        type="button"
+        className="btn btn-primary me-2"
+        onClick={(ev) => test(ev)}
+      > fetch interceptor test
+      </button>
+
+      <GridExample />
     </div>
   );
 }
