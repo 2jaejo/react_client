@@ -1,14 +1,20 @@
-import React, { useState, useEffect, StrictMode } from "react";
+import React, { useState, useEffect } from "react";
 
 import SearchBar from "../components/SearchBar";
+import axiosInstance from "../utils/Axios";
 import GridExample from "../grid/GridExample";
 
 function News() {
   const [searchQuery, setSearchQuery] = useState({});
+  const [inputId, setInputId] = useState("");
+  const [inputName, setInputName] = useState("");
+  const [items, setItems] = useState([]);
+
+  const dt = new Date().toISOString().substring(0, 10);
 
   // 동적으로 생성할 입력 필드
   const fields = [
-    { name: "date", type: "date", label: "날짜" },
+    { name: "date", type: "date", label: "날짜", default: dt },
     {
       name: "sel",
       type: "select",
@@ -50,30 +56,6 @@ function News() {
     setSearchQuery(data);
   };
 
-  const test = (ev) => {
-    // 기본적인 fetch GET 요청
-    fetch("/test/get", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => {
-        // 응답이 성공적일 경우
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json(); // JSON 형태로 변환
-      })
-      .then((data) => {
-        console.log("Fetched Data:", data); // 데이터 출력
-      })
-      .catch((error) => {
-        console.error("Fetch error:", error); // 오류 처리
-      });
-  };
-
-  
-
-
   return (
     <div>
       <SearchBar
@@ -86,13 +68,7 @@ function News() {
         SearchBar 컴포넌트에서 전달된 데이터:{" "}
         {JSON.stringify(searchQuery, null, 2)}
       </p>
-      <button
-        type="button"
-        className="btn btn-primary me-2"
-        onClick={(ev) => test(ev)}
-      > fetch interceptor test
-      </button>
-
+      
       <GridExample />
     </div>
   );

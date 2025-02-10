@@ -138,7 +138,7 @@ function Main() {
       {/* 메뉴리스트 */}
       <div className="aside">
         <span>aside 현재 tab: {String(isTab)} </span>
-        <button className="btn btn-secondary" onClick={toggleTab}>탭 변경</button>
+        <button className="btn btn-secondary" onClick={toggleTab}>탭기능 활성화</button>
 
         <ul>
           {/* expended Menu */}
