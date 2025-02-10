@@ -15,28 +15,27 @@ function Home() {
   }, []);
 
   const [searchQuery, setSearchQuery] = useState({});
-  
   // 동적으로 생성할 입력 필드
   const fields = [
-    { name: 'date', type: 'date', label: '날짜' },
-    { name: 'sel', type: 'select', label: '선택', options: [
+    { name: 'dt', type: 'date', label: '날짜', default: new Date().toISOString().substring(0, 10)},
+    { name: 'sel', type: 'select', label: '선택', default: '1', options: [
       {"key":'전체', 'value':''}, 
       {"key":'선택1', 'value':'1'}, 
       {"key":'선택2', 'value':'2'}, 
       {"key":'선택3', 'value':'3'}, 
     ]},
-    { name: 'opt', type: 'radio', label: '옵션', options: [
+    { name: 'opt', type: 'radio', label: '옵션', default: '2', options: [
       {"key":'옵션1', 'value':'1'}, 
       {"key":'옵션2', 'value':'2'}, 
       {"key":'옵션3', 'value':'3'}, 
     ]},
-    { name: 'chk', type: 'checkbox', label: '체크', options: [
+    { name: 'chk', type: 'checkbox', label: '체크', default: ['2'], options: [
       {"key":'체크1', 'value':'1'}, 
       {"key":'체크2', 'value':'2'}, 
       {"key":'체크3', 'value':'3'}, 
     ]},
-    { name: 'name', type: 'text', label: '이름' },
-    { name: 'num', type: 'number', label: '번호' },
+    { name: 'name', type: 'text', label: '이름', default: '홍길동' },
+    { name: 'num', type: 'number', label: '번호', default: '1234'},
   ];
   
   // 검색 버튼 클릭 시 호출되는 함수
