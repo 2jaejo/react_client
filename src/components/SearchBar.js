@@ -1,54 +1,46 @@
 import React, { useState, useEffect } from "react";
 
 const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
-  const [actionType, setActionType] = useState(null);
 
-  // 입력 필드 상태 관리 (JSON 형태)
-  const [inputsState, setInputsState] = useState(
-    fields.reduce((acc, field) => {
-      acc[`${id}_${field.name}`] = ""; // 기본값 설정
+  const initialData = (data) => {
+    let result = data.reduce((acc, field) => {
+      if ("default" in field){
+        acc[`${field.name}`] = field.default;
+      }
+      else{
+        acc[`${field.name}`] = ""; // 기본값 설정
+      }
       return acc;
     }, {})
-  );
+
+    return result;
+  };
 
   // 입력 필드 상태 관리 (JSON 형태)
-  const [inputsState2, setInputsState2] = useState({});
-
-  // aState가 변경될 때 bState를 업데이트
-  useEffect(() => {
-    console.log(inputsState);
-    const str = `${id}_`;
-    const filteredValue = Object.entries(inputsState).reduce((acc, [key,value]) => {
-      const newKey = key.replace(str, "");
-      acc[newKey] = value; // 기본값 설정
-      return acc;
-    }, {})
-    setInputsState2(filteredValue);
-  }, [inputsState]); // aState가 변경될 때 실행
-
+  const [inputsState, setInputsState] = useState(initialData(fields));
 
   // 입력 값 변경 핸들러
   const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    const filteredName = name.replace(`${id}_`,"");
+
     if (event.target.type === "checkbox") {
-      const { name, value } = event.target;
-      
       setInputsState((prev) => {
-        const prevValue = prev[name];
+        const prevValue = prev[filteredName];
         const nextValue = prevValue.includes(value)
           ? prevValue.filter((v) => v !== value)
           : [...prevValue, value];
         return {
           ...prev,
-          [name]: nextValue,
+          [filteredName]: nextValue,
         };
       });
 
     }
     else {
-      const { name, value } = event.target;
       setInputsState((prev) => ({
         ...prev,
-        [name]: value,
+        [filteredName]: value,
       }));
 
     }
@@ -57,26 +49,14 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
 
   // 버튼 클릭 이벤트 처리
   const handleButtonClick = (action) => {
-    setActionType(action);
     if (action === "search") {
-      onSearchData(inputsState2);
+      onSearchData(inputsState);
     } 
     else if (action === "reset") {
-      const reset = fields.reduce((acc, field) => {
-        acc[field.name] = ""; // 모든 입력값 초기화
-        return acc;
-      }, {})
-      setInputsState(reset);
+      const initData = initialData(fields);
+      setInputsState(initData);
     }
   };
-
-  useEffect(() => { 
-    if (actionType === "reset") {
-      onSearchData(inputsState2);
-      setActionType(null); // 초기화
-    }
-  }, [inputsState]); // inputsState가 변경될 때만 실행
-
 
   // 입력 필드 생성
   const createInput = (field) => {
@@ -85,7 +65,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <input
             type={field.type}
-            name={field.name}
+            name={`${id}_${field.name}`}
             value={inputsState[field.name]}
             onChange={handleInputChange}
             style={styles.input}
@@ -96,7 +76,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <input
             type="text"
-            name={field.name}
+            name={`${id}_${field.name}`}
             inputMode="numeric" 
             pattern="[0-9]*"
             value={inputsState[field.name]}
@@ -127,7 +107,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <select
               name={field.name}
-              value={inputsState[field.name]}
+              value={inputsState[`${field.name}`]}
               onChange={handleInputChange}
               style={styles.input}
             >
@@ -145,13 +125,13 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
               <div key={idx} style={styles.radioItem}>
                 <input
                   type="radio"
-                  id={`${id}_${field.type}-${field.name}-${option.value}`} // id로 고유값 설정
+                  id={`${id}_${field.type}-${field.name}-${idx}`} // id로 고유값 설정
                   name={`${id}_${field.name}`} // name 속성은 같은 그룹으로 묶이게
                   value={option.value} // 각 옵션의 value 설정
-                  checked={inputsState[`${id}_${field.name}`] === option.value} // 선택된 값 확인
+                  checked={inputsState[`${field.name}`] === option.value} // 선택된 값 확인
                   onChange={handleInputChange} // 값 변경 시 상태 업데이트
                 />
-                <label htmlFor={`${id}_${field.type}-${field.name}-${option.value}`}>{option.key}</label>
+                <label htmlFor={`${id}_${field.type}-${field.name}-${idx}`}>{option.key}</label>
               </div>
             ))}
           </div>
@@ -163,13 +143,13 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
               <div key={idx} style={styles.checkboxItem}>
                 <input
                   type="checkbox"
-                  id={`${id}_${field.type}-${field.name}-${option.value}`} // id로 고유값 설정
+                  id={`${id}-${field.type}-${field.name}-${idx}`} // id로 고유값 설정
                   name={`${id}_${field.name}`} // name 속성은 여러 체크박스를 하나의 그룹으로 묶음
                   value={option.value} // 각 옵션의 value 설정
-                  checked={inputsState[`${id}_${field.name}`].includes(option.value)} // 선택된 체크박스 확인
+                  checked={inputsState[`${field.name}`].includes(option.value)} // 선택된 체크박스 확인
                   onChange={handleInputChange} // 값 변경 시 상태 업데이트
                 />
-                <label htmlFor={`${id}_${field.type}-${field.name}-${option.value}`}>{option.key}</label>
+                <label htmlFor={`${id}-${field.type}-${field.name}-${idx}`}>{option.key}</label>
               </div>
             ))}
           </div>
@@ -179,7 +159,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
           <input
             type={field.type}
             name={field.name}
-            value={inputsState[field.name]}
+            value={inputsState[`${field.name}`]}
             onChange={handleInputChange}
             style={styles.input}
             maxLength="50"
