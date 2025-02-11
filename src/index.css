@@ -215,3 +215,7 @@ li.expanded {
   background: #0056b3;
 }
 
+
+.non-editable-cell {
+  background-color: #ced1de4d;  /* 연한 회색 배경 */
+}
