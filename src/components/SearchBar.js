@@ -8,10 +8,15 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         acc[`${field.name}`] = field.default;
       }
       else{
-        acc[`${field.name}`] = ""; // 기본값 설정
+        if (field.type === "checkbox"){
+          acc[`${field.name}`] = []; 
+        }
+        else{
+          acc[`${field.name}`] = ""; 
+        }
       }
       return acc;
-    }, {})
+    }, {});
 
     return result;
   };
@@ -219,12 +224,15 @@ const styles = {
   },
   inputContainer: {
     display: "flex",
+    flex: 1,
+    flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap", 
+    gap: '10px',
   },
   inputSubContainer: {
     display: "flex",
     alignItems: "center",
-    marginRight: "10px",
   },
   label: {
     marginRight: "5px",
@@ -239,7 +247,7 @@ const styles = {
   radioGroup: {
     display: 'flex',           
     justifyContent: 'flex-start',
-    gap: '10px',             
+    gap: '4px',             
   },
   radioItem: {
     display: 'flex',
@@ -248,7 +256,7 @@ const styles = {
   checkboxGroup: {
     display: 'flex',                
     flexDirection: 'row',           
-    gap: '10px',                   
+    gap: '4px',                   
   },
   checkboxItem: {
     display: 'flex',
@@ -256,7 +264,7 @@ const styles = {
   },
   buttonContainer: {
     display: "flex",
-    gap: "5px",
+    gap: "10px",
   },
 };
 
