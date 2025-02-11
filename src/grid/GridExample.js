@@ -1,123 +1,89 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import axiosInstance from "../utils/Axios";
+import React, { useState, useMemo, useCallback, useRef, forwardRef, useImperativeHandle } from "react";
 
 import { AgGridReact } from "ag-grid-react";
 // Register all Community features
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { AllCommunityModule, ModuleRegistry, themeQuartz, themeBalham} from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const GridExample = () => {
+const GridExample = forwardRef(({columnDefs, rowData, rowSel="singleRow", onGridReady=null}, ref) => {
+  // to use myTheme in an application, pass it to the theme grid option
+  const myTheme = themeQuartz // themeQuartz, themeBalham 
+  .withParams({
+      browserColorScheme: "inherit",
+      fontFamily: [
+          "Arial",
+          "sans-serif"
+      ],
+      headerFontSize: 14
+  });
+
   const gridRef = useRef(null);
-  const [loading, setLoading] = useState(true);
-  const [rowData, setRowData] = useState();
-
+  const [loading, setLoading] = useState(false);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const gridStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
 
+  // 부모 컴포넌트에서 접근할 수 있는 메서드를 정의
+  useImperativeHandle(ref, () => ({
+    api: gridRef.current?.api,  // AG Grid API를 부모에게 제공
+    getLoading: loading,
+    setLoading: (state)=>{
+      setLoading(state);
+    },
+  }));
+  
   const defaultColDef = useMemo(() => {
     return {
       flex: 1,
       minWidth: 110,
-      editable: true,
+      filter: false,
+      editable: false,
+      sortable: false,
     };
   }, []);
-
-  const [columnDefs] = useState([
-    { headerName: "아이디", field: "id", sortable: true, filter: false, editable:false },
-    { headerName: "이름", field: "user_nm", sortable: true, filter: "agTextColumnFilter" ,editable:true},
-    { headerName: "이메일", field: "user_mail", sortable: true, filter: "agNumberColumnFilter", editable:false },
-
-  ]);
-
-  // 조회
-  const onGridReady = useCallback((params) => {
-    console.log("onGridReady");
-    if (!gridRef.current) return;
-
-    const dataSource = {
-      rowCount: null, // 전체 개수 모를 경우 null
-      getRows: async (params) => {
-        console.log("Loading Data ...");
-        console.log("요청된 데이터 범위:", params.startRow, " to ", params.endRow);
-        
-        try {
-          const response = await fetch(
-            `/api/items?start=${params.startRow}&limit=${params.endRow - params.startRow}`
-            , {method: "GET", headers: { "Content-Type": "application/json"}
-          });
-          const data = await response.json();
-          params.successCallback(data, data.length);
-        } catch (error) {
-          console.error("데이터 로딩 실패:", error);
-          params.failCallback();
-        } finally{
-          setLoading(false);
-        }
-      },
-    };
-
-    params.api.setGridOption("datasource", dataSource);
-  }, []);
-
-  // 수정
-  const modifyData = useCallback((params) => {
-    axiosInstance
-      .put("/api/items", JSON.stringify(params))
-      .then((res) => {
-        if (200 < res.status && res.status < 300){
-          gridRef.current.api.refreshInfiniteCache(); 
-        }
-      })
-      .catch((error) => console.error("Error fetching data:", error));    
-  })
-
-  // cell edit start
-  const onCellEditingStarted = useCallback((ev) => {
-    console.log("cellEditingStarted");
-  }, []);
-
-  // cell edit end
-  const onCellEditingStopped = useCallback((ev) => {
-    console.log("cellEditingStopped");
-  }, []);
-
-  // cell edit end
-  const onCellValueChanged  = useCallback((ev) => {
-    console.log("onCellValueChanged ");
-    console.log(ev);
-    if (ev.oldValue !== ev.newValue){
-      const params = {
-        id: ev.data.id,
-        name: ev.data.user_nm
-      };
-      setLoading(true);
-      modifyData(params);
-    }
-  }, []);
-
   
+  const rowSelection = useMemo(() => {
+    return { 
+      mode: rowSel, // singleRow, multiRow
+      headerCheckbox: true,
+      checkboxes: true,
+      enableClickSelection: true,
+    };
+  },[]);
+
+  const paginationPageSizeSelector = useMemo(() => {
+    return [5, 10, 50, 100, 500, 1000];
+  }, []);
+
+  const paginationNumberFormatter = useCallback((params) => {
+    return "[" + params.value.toLocaleString() + "]";
+  }, []);
 
   
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+        theme={myTheme}
           ref={gridRef}
+          rowData={rowData}
           loading={loading}
           defaultColDef={defaultColDef}
           columnDefs={columnDefs}
+          rowSelection={rowSelection}
+          rowModelType={"clientSide"}
 
-          domLayout={"autoHeight"}
-          rowModelType={"infinite"}
-    
           onGridReady={onGridReady}
-          onCellEditingStarted={onCellEditingStarted}
-          onCellEditingStopped={onCellEditingStopped}
-          onCellValueChanged ={onCellValueChanged }
+        
+          // paginationAutoPageSize={true}
+          pagination={true}
+          paginationPageSize={10}
+          paginationPageSizeSelector={paginationPageSizeSelector}
+          paginationNumberFormatter={paginationNumberFormatter}
         />
       </div>
     </div>
   );
-};
+
+});
 
 export default GridExample;
