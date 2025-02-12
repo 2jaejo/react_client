@@ -62,15 +62,15 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
   };
 
   // 버튼 클릭 이벤트 처리
-  const handleButtonClick = (action) => {
-    if (action === "search") {
-      onSearchData(inputsState);
-    } 
-    else if (action === "reset") {
-      const initData = initialData(fields);
-      setInputsState(initData);
-    }
-  };
+  // const handleButtonClick = (action) => {
+  //   if (action === "search") {
+  //     onSearchData(inputsState);
+  //   } 
+  //   else if (action === "reset") {
+  //     const initData = initialData(fields);
+  //     setInputsState(initData);
+  //   }
+  // };
 
   // 입력 필드 생성
   const createInput = (field) => {
