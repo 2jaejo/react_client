@@ -26,6 +26,7 @@ window.fetch = async (...args) => {
     headers: {
       ...config.headers,
       Authorization: token ? `Bearer ${token}` : "",
+      'Cache-Control': 'no-cache', // 항상 서버에서 최신 데이터 가져오기
     },
   };
 
