@@ -1,32 +1,29 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef } from "react";
 
 import SearchBar from "../components/SearchBar";
 import axiosInstance from "../utils/Axios";
 import GridExample from "../grid/GridExample";
+import Buttons from "../components/Buttons";
+import { useConfirm } from "../utils/ConfirmContext";
 
 function News() {
-  const gridRef = useRef(null);  // AG Grid 인스턴스를 저장할 ref
-  const gridRef2 = useRef(null);  // AG Grid 인스턴스를 저장할 ref
+  const gridRef = useRef(null);  // AG Grid 인스턴스를 저장할 ref = forwardRef 사용(자식컴포넌트 메서드 추가가능)
+  const gridRef2 = useRef(null);  // AG Grid 인스턴스를 저장할 ref2 = onGridReady 사용
 
   const [rowData, setRowData] = useState();
-  const cellClass = "non-editable-cell";
   const [columnDefs] = useState([
-    { headerName: "#", sortable: true, valueGetter: (params) => params.node.rowIndex + 1, cellClass: cellClass},
-    { headerName: "아이디", field: "id", sortable: true, cellClass: cellClass},
-    { headerName: "이름", field: "user_nm", filter: "agTextColumnFilter", editable: true, },
-    { headerName: "이메일", field: "user_mail", cellClass: cellClass},
+    { headerName: "아이디", field: "id", sortable: true, },
+    { headerName: "이름", field: "user_nm", filter: "agTextColumnFilter", editable: true, align:"left"},
+    { headerName: "이메일", field: "user_mail", align:"right"},
   ]);
 
   const [searchQuery, setSearchQuery] = useState({});
-  const [inputId, setInputId] = useState("");
   const [inputName, setInputName] = useState("");
-  const [items, setItems] = useState([]);
-
-  const dt = new Date().toISOString().substring(0, 10);
+  const { showConfirm } = useConfirm();
 
   // 동적으로 생성할 입력 필드
   const fields = [
-    { name: "date", type: "date", label: "날짜", default: dt },
+    { name: "date", type: "date", label: "날짜", default: new Date().toISOString().substring(0, 10) },
     {
       name: "sel",
       type: "select",
@@ -64,15 +61,9 @@ function News() {
   ];
 
 
-  // 검색 버튼 클릭 시 호출되는 함수
+  // 검색창 데이터 변경시 호출되는 함수
   const handleSearchData = (data) => {
-    console.log(data);
     setSearchQuery(data);
-
-    console.log(gridRef);
-    let ref = gridRef.current;
-    ref.setLoading(!ref.getLoading);
-  
   };
 
 
@@ -81,24 +72,33 @@ function News() {
     console.log("getData");
 
     let ref = gridRef.current;
-    ref.setLoading(!ref.getLoading);
-
+    ref?.setLoading(!ref.getLoading());
+    
+    const queryString = new URLSearchParams(searchQuery).toString();
+    
+    const startTime = Date.now(); // 요청 전 시간 기록
     axiosInstance
-      .get("/api/items")
+      .get(`/api/items?${queryString}`)
       .then((res) => {
-        setRowData(res.data);
+        const endTime = Date.now(); // 응답 시간을 측정
+        const responseTime = endTime - startTime; // 응답 시간 (밀리초)
+        const delay = responseTime < 300 ? 300 - responseTime : 0; // 응답 시간이 0.5초보다 빠르면 남은 시간만큼 지연
+        // 지연 후 응답을 출력
+        setTimeout(async () => {
+          setRowData(res.data);
+          let ref = gridRef.current;
+          ref?.setLoading(!ref.getLoading());
+        }, delay);
         
-        let ref = gridRef.current;
-        ref.setLoading(!ref.getLoading);
       })
       .catch((error) => console.error("Error fetching data:", error));
     
   };
 
-
   // 수정
   const modifyData = (params) => {
     console.log("modifyData");
+    console.log(searchQuery);
 
     axiosInstance
       .put("/api/items", JSON.stringify(params))
@@ -106,6 +106,42 @@ function News() {
         getData();
       })
       .catch((error) => console.error("Error fetching data:", error));    
+  };
+
+
+  // 추가
+  const createData = (params) => {
+    console.log("createData");
+    let data = {
+      name: inputName
+    };
+
+    axiosInstance
+      .post("/api/items", JSON.stringify(data))
+      .then((res) => {
+        getData();
+      })
+      .catch((error) => console.error("Error fetching data:", error));    
+  };
+
+
+  // 삭제
+  const deleteData = (params) => {
+    console.log("deleteData");
+
+    const selectRows = gridRef.current.api.getSelectedRows();
+    console.log(selectRows);
+
+    // 나중에 데이터 전체 넘기고 batch 처리 필요
+    selectRows.forEach( (el)=>{
+      axiosInstance
+        .delete(`/api/items/${el.id}`)
+        .then((res) => {
+          getData();
+        })
+        .catch((error) => console.error("Error fetching data:", error));    
+
+    });
   };
 
 
@@ -123,6 +159,7 @@ function News() {
 
   // onGridReady에서 이벤트 리스너 추가
   const onGridReady = (params) => {
+    console.log("onGridReady");
     console.log(params);
 
     getData();
@@ -147,6 +184,29 @@ function News() {
 
   };
 
+
+  // 추가버튼 콜백
+  const openModal = () => {
+    // 모달 열기
+    showConfirm({title: "확인", message: "정말로 진행하시겠습니까?"})
+      .then((res)=>{
+        console.log(res);
+        if (res) {
+
+        }
+        else{
+    
+        }
+      });
+  };
+
+
+  const buttonData = [
+    { label: "조회", className: "btn btn-primary", onClick: getData },
+    { label: "추가", className: "btn btn-success", onClick: openModal },
+    { label: "삭제", className: "btn btn-danger", onClick: deleteData },
+  ];
+
  
   return (
     <div>
@@ -156,10 +216,25 @@ function News() {
         onSearchData={handleSearchData}
         reset={true}
       />
+
       <p>
         SearchBar 컴포넌트에서 전달된 데이터:{" "}
         {JSON.stringify(searchQuery, null, 2)}
       </p>
+
+      <div className="p-2 d-flex justify-content-start align-items-center gap-3">
+        <div className="flex-1">
+          <input
+            type="text"
+            className="form-control"
+            value={inputName}
+            onChange={(e) => setInputName(e.target.value)}
+          />
+        </div>
+        <div className="flex-2">
+          <Buttons buttonData={buttonData} align={"start"}/>
+        </div>
+      </div>
       
       <div style={{height:"500px"}}>
         <GridExample 
@@ -167,6 +242,7 @@ function News() {
           columnDefs={columnDefs}
           rowData={rowData}
           onGridReady={onGridReady} 
+          rowNum={true}
         />
       </div>
 
