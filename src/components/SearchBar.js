@@ -23,6 +23,16 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
 
   // 입력 필드 상태 관리 (JSON 형태)
   const [inputsState, setInputsState] = useState(initialData(fields));
+  // inputsState가 변경될 때마다 호출되는 함수
+  useEffect(() => {
+    const runSomeFunction = () => {
+      // console.log('inputsState가 변경되었습니다:', inputsState);
+      onSearchData(inputsState);
+    };
+
+    runSomeFunction();
+  }, [onSearchData, inputsState]); // inputsState가 변경될 때마다 실행됨
+
 
   // 입력 값 변경 핸들러
   const handleInputChange = (event) => {
@@ -49,7 +59,6 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
       }));
 
     }
-
   };
 
   // 버튼 클릭 이벤트 처리
@@ -92,6 +101,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
                 ...prev,
                 [field.name]: filteredValue,
               }));
+              console.log(inputsState);
             }}
             onKeyDown={(e)=>{
               if (!/^\d$/.test(e.key) && e.key !== "Backspace") {
@@ -189,7 +199,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
       </div>
 
       {/* 여러 개의 버튼을 동적으로 생성 */}
-      <div style={styles.buttonContainer}>
+      {/* <div style={styles.buttonContainer}>
         <button
           className="btn btn-primary"
           key={1}
@@ -208,7 +218,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
             {"초기화"}
           </button>
         }
-      </div>
+      </div> */}
     </div>
   );
 };
