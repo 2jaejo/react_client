@@ -21,7 +21,6 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
   });
 
 
-
   // 기본 설정 추가 = rowNum, editable: false일때 배경색
   const enhancedColumnDefs = useMemo(() => {
     let newColumnDefs = [];
@@ -57,9 +56,7 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
 
   const gridRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-
+  
 
   // 부모 컴포넌트에서 접근할 수 있는 메서드를 정의
   useImperativeHandle(ref, () => ({
@@ -74,7 +71,7 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
     },
   }));
 
-  
+  // 기본 설정
   const defaultColDef = useMemo(() => {
     return {
       flex: 1,
@@ -82,10 +79,12 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
       filter: false,
       editable: false,
       sortable: false,
+      unSortIcon: true, // 기본 정렬 아이콘 표시
       align:"center"
     };
   }, []);
   
+  // 행 선택 설정
   const rowSelection = useMemo(() => {
     return { 
       mode: rowSel, // singleRow, multiRow
@@ -95,14 +94,20 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
     };
   },[rowSel]);
 
+  // 페이지 크기
   const paginationPageSizeSelector = useMemo(() => {
     return [5, 10, 50, 100, 500, 1000];
   }, []);
 
+  // 페이지 포맷
   const paginationNumberFormatter = useCallback((params) => {
     return "[" + params.value.toLocaleString() + "]";
   }, []);
 
+
+
+  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+  const gridStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   
   return (
     <div style={containerStyle}>
