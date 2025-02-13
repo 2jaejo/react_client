@@ -1,6 +1,6 @@
 import React from "react";
 
-const Buttons = ({ buttonData, align }) => {
+const Buttons = ({ buttonData, align="end" }) => {
   const styles = {
     buttonContainer: {
       display: 'flex',       // Flexbox로 가로 정렬

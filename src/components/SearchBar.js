@@ -61,16 +61,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
     }
   };
 
-  // 버튼 클릭 이벤트 처리
-  // const handleButtonClick = (action) => {
-  //   if (action === "search") {
-  //     onSearchData(inputsState);
-  //   } 
-  //   else if (action === "reset") {
-  //     const initData = initialData(fields);
-  //     setInputsState(initData);
-  //   }
-  // };
+
 
   // 입력 필드 생성
   const createInput = (field) => {
@@ -79,6 +70,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <input
             type={field.type}
+            className={field.className}
             name={`${id}_${field.name}`}
             value={inputsState[field.name]}
             onChange={handleInputChange}
@@ -90,6 +82,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <input
             type="text"
+            className={field.className}
             name={`${id}_${field.name}`}
             inputMode="numeric" 
             pattern="[0-9]*"
@@ -122,9 +115,10 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <select
               name={field.name}
+              className={field.className}
               value={inputsState[`${field.name}`]}
               onChange={handleInputChange}
-              style={styles.input}
+              style={styles.select}
             >
               {field.options.map((option, idx) => (
                 <option key={idx} value={option.value}>
@@ -140,13 +134,14 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
               <div key={idx} style={styles.radioItem}>
                 <input
                   type="radio"
+                  className={field.className}
                   id={`${id}_${field.type}-${field.name}-${idx}`} // id로 고유값 설정
                   name={`${id}_${field.name}`} // name 속성은 같은 그룹으로 묶이게
                   value={option.value} // 각 옵션의 value 설정
                   checked={inputsState[`${field.name}`] === option.value} // 선택된 값 확인
                   onChange={handleInputChange} // 값 변경 시 상태 업데이트
                 />
-                <label htmlFor={`${id}_${field.type}-${field.name}-${idx}`}>{option.key}</label>
+                <label style={styles.subLabel} htmlFor={`${id}_${field.type}-${field.name}-${idx}`}>{option.key}</label>
               </div>
             ))}
           </div>
@@ -158,13 +153,14 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
               <div key={idx} style={styles.checkboxItem}>
                 <input
                   type="checkbox"
+                  className={field.className}
                   id={`${id}-${field.type}-${field.name}-${idx}`} // id로 고유값 설정
                   name={`${id}_${field.name}`} // name 속성은 여러 체크박스를 하나의 그룹으로 묶음
                   value={option.value} // 각 옵션의 value 설정
                   checked={inputsState[`${field.name}`].includes(option.value)} // 선택된 체크박스 확인
                   onChange={handleInputChange} // 값 변경 시 상태 업데이트
                 />
-                <label htmlFor={`${id}-${field.type}-${field.name}-${idx}`}>{option.key}</label>
+                <label style={styles.subLabel} htmlFor={`${id}-${field.type}-${field.name}-${idx}`}>{option.key}</label>
               </div>
             ))}
           </div>
@@ -173,6 +169,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         return (
           <input
             type={field.type}
+            className={field.className}
             name={field.name}
             value={inputsState[`${field.name}`]}
             onChange={handleInputChange}
@@ -234,7 +231,7 @@ const styles = {
   },
   inputContainer: {
     display: "flex",
-    flex: 1,
+    flex: 2,
     flexDirection: "row",
     alignItems: "center",
     flexWrap: "wrap", 
@@ -245,14 +242,19 @@ const styles = {
     alignItems: "center",
   },
   label: {
+    whiteSpace: "nowrap", /* 줄 바꿈을 방지 */
     marginRight: "5px",
     fontWeight: "bold",
   },
+  subLabel: {
+    whiteSpace: "nowrap", /* 줄 바꿈을 방지 */
+    marginRight: "2px",
+  },
   input: {
-    padding: "5px",
-    fontSize: "14px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
+    
+  },
+  select: {
+    
   },
   radioGroup: {
     display: 'flex',           
@@ -272,10 +274,10 @@ const styles = {
     display: 'flex',
     alignItems: 'center',           
   },
-  buttonContainer: {
-    display: "flex",
-    gap: "10px",
-  },
+  // buttonContainer: {
+  //   display: "flex",
+  //   gap: "10px",
+  // },
 };
 
 export default SearchBar;
