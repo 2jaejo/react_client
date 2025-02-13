@@ -33,23 +33,12 @@ function About() {
         { key: "옵션3", value: "3" },
       ],
     },
-    {
-      name: "chk",
-      type: "checkbox",
-      label: "체크",
-      options: [
-        { key: "체크1", value: "1" },
-        { key: "체크2", value: "2" },
-        { key: "체크3", value: "3" },
-      ],
-    },
     { name: "name", type: "text", label: "이름" },
     { name: "num", type: "number", label: "번호" },
   ];
 
-  // 검색 버튼 클릭 시 호출되는 함수
+  // 검색창 데이터 변경시 호출되는 함수
   const handleSearchData = (data) => {
-    console.log(data);
     setSearchQuery(data);
   };
 

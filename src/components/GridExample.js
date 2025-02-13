@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef, forwardRef, useImperativeHandle } from "react";
+import React, { useMemo, useCallback } from "react";
 
 import { AgGridReact } from "ag-grid-react";
 // Register all Community features
@@ -7,8 +7,8 @@ import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="singleRow", onGridReady=null}, ref) => {
-  
+const GridExample = ( {columnDefs, rowData, loading=false, rowNum=false, rowSel="singleRow", onGridReady=null} ) => {
+
   // 테마설정
   const myTheme = themeQuartz // themeQuartz, themeBalham 
   .withParams({
@@ -22,7 +22,7 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
 
 
   // 기본 설정 추가 = rowNum, editable: false일때 배경색
-  const enhancedColumnDefs = useMemo(() => {
+  const enchancedColumnDefs = useMemo(() => {
     let newColumnDefs = [];
     let rownumCol = { 
       headerName: "No.", 
@@ -54,23 +54,6 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
   }, [rowNum, columnDefs]);
 
 
-  const gridRef = useRef(null);
-  const [loading, setLoading] = useState(false);
-  
-
-  // 부모 컴포넌트에서 접근할 수 있는 메서드를 정의
-  useImperativeHandle(ref, () => ({
-    // AG Grid API를 부모에게 제공
-    api: gridRef.current?.api,  
-
-    getLoading: ()=>{
-      return loading;
-    },
-    setLoading: (state)=>{
-      setLoading(state);
-    },
-  }));
-
   // 기본 설정
   const defaultColDef = useMemo(() => {
     return {
@@ -84,20 +67,24 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
     };
   }, []);
   
+
   // 행 선택 설정
   const rowSelection = useMemo(() => {
     return { 
       mode: rowSel, // singleRow, multiRow
       headerCheckbox: true,
-      checkboxes: true,
-      enableClickSelection: true,
+      checkboxes: (rowSel === "singleRow" ? false : true),
+      enableClickSelection: true, // 클릭 선택 가능
+      enableSelectionWithoutKeys:true, // 간은 행 클릭시 선택,취소
     };
   },[rowSel]);
+
 
   // 페이지 크기
   const paginationPageSizeSelector = useMemo(() => {
     return [5, 10, 50, 100, 500, 1000];
   }, []);
+
 
   // 페이지 포맷
   const paginationNumberFormatter = useCallback((params) => {
@@ -105,9 +92,36 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
   }, []);
 
 
+  // 로딩 컴포넌트
+  const CustomLoadingOverlay = () => {
+    return (
+      <div className="ag-overlay-loading-center" role="presentation">
+        <div aria-live="polite" aria-atomic="true" style={{padding:"10px"}}>
+          로딩중입니다... abh
+        </div>
+      </div>
+    )
+  };
 
+
+  // onGridReady 내부 핸들러 (기본 이벤트 자동 추가)
+  const handleGridReady = useCallback((params) => {
+
+    // 기본 이벤트 리스너 등록
+
+
+    // 부모에서 전달한 onGridReady 실행 (있다면)
+    if (onGridReady) {
+      onGridReady(params);
+    }
+  }, [onGridReady]);
+
+
+
+  // 스타일
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+  
   
   return (
     <div style={containerStyle}>
@@ -115,26 +129,27 @@ const GridExample = forwardRef(({columnDefs, rowData, rowNum=false, rowSel="sing
         <AgGridReact
           theme={myTheme}
           localeText={AG_GRID_LOCALE_KR}
-          ref={gridRef}
           rowData={rowData}
           loading={loading}
           defaultColDef={defaultColDef}
-          columnDefs={enhancedColumnDefs}
+          columnDefs={enchancedColumnDefs}
           rowSelection={rowSelection}
           rowModelType={"clientSide"}
 
-          onGridReady={onGridReady}
+          onGridReady={handleGridReady}
         
           // paginationAutoPageSize={true}
           pagination={true}
           paginationPageSize={10}
           paginationPageSizeSelector={paginationPageSizeSelector}
           paginationNumberFormatter={paginationNumberFormatter}
+
+          loadingOverlayComponent={CustomLoadingOverlay}
         />
       </div>
     </div>
   );
 
-});
+};
 
 export default GridExample;

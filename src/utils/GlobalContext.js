@@ -16,6 +16,7 @@ export const GlobalProvider = ({ children }) => {
   }, [isTab]);
 
   const toggleTheme = () => {
+    console.log("toggleTheme");
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
   
