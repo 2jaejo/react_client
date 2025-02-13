@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
-import ConfirmModal from "../components/ConfirmModal";
+import styles from '../css/ConfirmModal.module.css';
 
 const ConfirmContext = createContext();
 
@@ -38,7 +38,20 @@ export const ConfirmProvider = ({ children }) => {
   return (
     <ConfirmContext.Provider value={{ showConfirm, closeConfirm }}>
       {children}
-      <ConfirmModal {...confirmState}  />
+      <div className={styles.fullscreenCenter}>
+      <div className={styles.modal}>
+        <h4 style={{ fontWeight: "bold" }}>{confirmState.title}</h4>
+        <p style={{ marginTop: "8px" }}>{confirmState.message}</p>
+        <div className={styles.buttonContainer}>
+          {confirmState.cancelText !== "" && 
+            <button onClick={confirmState.onCancel} className={`${styles.button} ${styles.cancelButton}`}>{confirmState.cancelText}</button>
+          }
+          {confirmState.confirmText !== "" &&
+          <button onClick={confirmState.onConfirm} className={`${styles.button} ${styles.confirmButton}`}>{confirmState.confirmText}</button>
+          } 
+        </div>
+      </div>
+    </div>
     </ConfirmContext.Provider>
   );
 };
