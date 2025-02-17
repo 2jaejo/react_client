@@ -23,6 +23,7 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
 
   // 입력 필드 상태 관리 (JSON 형태)
   const [inputsState, setInputsState] = useState(initialData(fields));
+  
   // inputsState가 변경될 때마다 호출되는 함수
   useEffect(() => {
     const runSomeFunction = () => {

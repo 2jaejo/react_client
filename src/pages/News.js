@@ -4,10 +4,12 @@ import SearchBar from "../components/SearchBar";
 import axiosInstance from "../utils/Axios";
 import GridExample from "../components/GridExample";
 import Buttons from "../components/Buttons";
-import { useConfirm } from "../utils/ConfirmContext";
+import Modal from "../components/Modal";
 
 function News() {
   const gridRef = useRef();  
+  const modalRef = useRef();  
+  const modalRef2 = useRef();  
 
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState();
@@ -18,7 +20,8 @@ function News() {
   ]);
 
   const [searchQuery, setSearchQuery] = useState({});
-  const { showConfirm } = useConfirm();
+
+  
 
   // 동적으로 생성할 입력 필드
   const fields = [
@@ -115,28 +118,24 @@ function News() {
   // 추가
   const createData = (params) => {
 
-    if(searchQuery.name === ""){
-      showConfirm({message:"이름이 없습니다.", cancelText:""});
-      return;
-    }
-
-    let data = {
-      name: searchQuery.name
-    };
-
-    // 모달 열기
-    showConfirm({title: "추가", message: "진행하시겠습니까?"})
-      .then((res)=>{
+    modalRef.current.open({
+      title:"추가",
+      message:"추가하시겠습니까?",
+      fields:fields,
+      onCancel:()=>{
+        modalRef.current.close();
+      },
+      onConfirm:(res) => {
         console.log(res);
-        if (res) {
-          axiosInstance
-            .post("/api/items", JSON.stringify(data))
-            .then((res) => {
-              getData();
-            })
-            .catch((error) => console.error("Error fetching data:", error));    
+        if(res.data.name === ""){
+          modalRef2.current.open({ title:"알림", message:"이름 없음." });
+          return;
+        }else{
+          modalRef.current.close();
         }
-      });
+      },
+    });
+
   };
 
 
@@ -145,26 +144,32 @@ function News() {
     const selectRows = gridRef.current.getSelectedRows();
 
     if(selectRows.length === 0) {
-      showConfirm({message:"선택된 항목이 없습니다.", cancelText:""});
+      modalRef.current.open({ title:"알림", message:"선택된 항목이 없습니다.", cancelText:"" });
       return;
     }
 
     // 모달 열기
-    showConfirm({title: "삭제", message: "진행하시겠습니까?"})
-      .then((res)=>{
+    modalRef.current.open({
+      title:"삭제",
+      message:"진행하시겠습니까",
+      onCancel:()=>{
+        modalRef.current.close();
+      },
+      onConfirm:(res) => {
         console.log(res);
-        if (res) {
-          // 나중에 데이터 전체 넘기고 batch 처리 필요
-          selectRows.forEach( (el)=>{
-            axiosInstance
-            .delete(`/api/items/${el.id}`)
-            .then((res) => {
-              getData();
-            })
-            .catch((error) => console.error("Error fetching data:", error));    
-          });
-        }
-      });
+        // 나중에 데이터 전체 넘기고 batch 처리 필요
+        selectRows.forEach( (el)=>{
+          axiosInstance
+          .delete(`/api/items/${el.id}`)
+          .then((res) => {
+            getData();
+            modalRef.current.close();
+          })
+          .catch((error) => console.error("Error fetching data:", error));    
+        });
+      },
+    });
+    
   };
 
 
@@ -172,8 +177,6 @@ function News() {
   const onGridReady = (params) => {
     gridRef.current = params.api; // Grid API 저장
     getData();
-
-    // 이벤트 리스너 시작
 
     // 셀 값 변경 이벤트
     params.api.addEventListener("cellValueChanged", (ev) => {
@@ -199,8 +202,6 @@ function News() {
     params.api.addEventListener("selectionChanged", (ev) => {
       console.log(ev);
     });
-
-    // 이벤트 리스너 종료
 
   };
 
@@ -245,6 +246,8 @@ function News() {
         />
       </div>
 
+      <Modal ref={modalRef} />
+      <Modal ref={modalRef2} />
     </div>
   );
 }
