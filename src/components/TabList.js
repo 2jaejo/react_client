@@ -14,7 +14,7 @@ const TabList = ({ tabs, activeTab, setActiveTab, removeTab }) => {
           <span>{tab}</span>
           {tab !== 'Home' && (
             <button
-              className="close-btn"
+              className="close-btn p-0"
               onClick={(e) => {
                 e.stopPropagation(); // 부모 탭 클릭 이벤트 차단
                 removeTab(tab);

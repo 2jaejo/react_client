@@ -4,10 +4,62 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../css/Login.module.css';
 import axiosInstance from "../utils/Axios";
 
+import { useConfirm } from "../utils/ConfirmContext";
+
 const LoginForm = () => {
   const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('admin');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const { showConfirm } = useConfirm();
+  
+  // 동적으로 생성할 입력 필드
+  const fields = [
+    { name: "date", 
+      type: "date", 
+      label: "날짜", 
+      default: new Date().toISOString().substring(0, 10), 
+      className:"form-control form-control-sm",
+    },
+    {
+      name: "sel",
+      type: "select",
+      label: "선택",
+      options: [
+        { key: "전체", value: "" },
+        { key: "선택1", value: "1" },
+        { key: "선택2", value: "2" },
+        { key: "선택3", value: "3" },
+      ],
+      className:"form-select form-select-sm",
+    },
+    {
+      name: "opt",
+      type: "radio",
+      label: "옵션",
+      options: [
+        { key: "옵션1", value: "1" },
+        { key: "옵션2", value: "2" },
+        { key: "옵션3", value: "3" },
+      ],
+      default:'1',
+      className:"",
+    },
+    {
+      name: "chk",
+      type: "checkbox",
+      label: "체크",
+      options: [
+        { key: "체크1", value: "1" },
+        { key: "체크2", value: "2" },
+        { key: "체크3", value: "3" },
+      ],
+      className:"",
+    },
+    { name: "name", type: "text", label: "이름", className:"form-control form-control-sm", },
+    { name: "num", type: "number", label: "번호", className:"form-control form-control-sm", },
+  ];
+
 
   const navigate = useNavigate();
 
@@ -32,6 +84,17 @@ const LoginForm = () => {
       setErrorMessage('An error occurred. Please try again.');
     }
   };
+
+  const joinUs = (e)=> {
+    showConfirm({
+      title:"회원가입",
+      fields:fields,
+    })
+      .then((res)=>{
+        console.log(res);
+      });
+  };
+
 
   return (
     <div className={styles.wrap}>
@@ -58,7 +121,10 @@ const LoginForm = () => {
               required
             />
           </div>
-          <button type="submit" className={styles.button}>확인</button>
+          <div className="d-flex justify-content-around align-items-center gap-2">
+            <button type="button" className={styles.buttonJoin} onClick={joinUs}>회원가입</button>
+            <button type="submit" className={styles.buttonLogin}>확인</button>
+          </div>
           {errorMessage && <p>{errorMessage}</p>}
         </form>
       </div>

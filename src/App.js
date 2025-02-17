@@ -11,10 +11,6 @@ import axiosInstance from "./utils/Axios";
 // 테마
 import { GlobalProvider } from "./utils/GlobalContext";
 
-//
-import { ConfirmProvider } from "./utils/ConfirmContext";
-
-
 // 보호된 메인 컴포넌트 (로그인 필요)
 const ProtectedPage = () => {
   const [loading, setLoading] = useState(true);
@@ -42,15 +38,13 @@ function App() {
   
   return (
     <GlobalProvider>
-      <ConfirmProvider>
-        <Router>
-          <Routes>
-            <Route index path="/login" element={<Login />} />
-            <Route path="/" element={<ProtectedPage />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </Router>
-      </ConfirmProvider>
+      <Router>
+        <Routes>
+          <Route index path="/login" element={<Login />} />
+          <Route path="/" element={<ProtectedPage />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </Router>
     </GlobalProvider>
   );
 }
