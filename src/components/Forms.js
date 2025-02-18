@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const SearchBar = ({ id, fields, onSearchData, direction="horizontal" }) => {
+const Forms = ({ id, fields, onSearchData, direction="horizontal" }) => {
 
   const initialData = (data) => {
     let result = data.reduce((acc, field) => {
@@ -258,4 +258,4 @@ const SearchBar = ({ id, fields, onSearchData, direction="horizontal" }) => {
 
 
 
-export default SearchBar;
+export default Forms;
