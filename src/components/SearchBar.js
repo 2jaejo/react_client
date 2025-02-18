@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
+const SearchBar = ({ id, fields, onSearchData, direction="horizontal" }) => {
 
   const initialData = (data) => {
     let result = data.reduce((acc, field) => {
@@ -95,7 +95,6 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
                 ...prev,
                 [field.name]: filteredValue,
               }));
-              console.log(inputsState);
             }}
             onKeyDown={(e)=>{
               if (!/^\d$/.test(e.key) && e.key !== "Backspace") {
@@ -183,6 +182,63 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
     }
   }
 
+  // 스타일 객체
+  const styles = {
+    searchBar: {
+      display: "flex",
+      justifyContent: "start", 
+      alignItems: "center",
+      gap: "10px", 
+      flexWrap: "wrap", 
+    },
+    inputContainer: {
+      display: "flex",
+      flex: 1,
+      flexDirection: direction === "horizontal" ? "row" : "column" ,
+      alignItems: "start",
+      flexWrap: "wrap", 
+      gap: '10px',
+    },
+    inputSubContainer: {
+      display: "flex",
+      alignItems: "center",
+    },
+    label: {
+      whiteSpace: "nowrap", /* 줄 바꿈을 방지 */
+      marginRight: "5px",
+      fontWeight: "bold",
+    },
+    subLabel: {
+      whiteSpace: "nowrap", /* 줄 바꿈을 방지 */
+      marginRight: "2px",
+    },
+    input: {
+      
+    },
+    select: {
+      
+    },
+    radioGroup: {
+      display: 'flex',           
+      justifyContent: 'flex-start',
+      gap: '4px',             
+    },
+    radioItem: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    checkboxGroup: {
+      display: 'flex',                
+      flexDirection: 'row',           
+      gap: '4px',                   
+    },
+    checkboxItem: {
+      display: 'flex',
+      alignItems: 'center',           
+    },
+
+  };
+
 
   return (
     <div style={styles.searchBar}>
@@ -196,89 +252,10 @@ const SearchBar = ({ id, fields, onSearchData, reset=false }) => {
         ))}
       </div>
 
-      {/* 여러 개의 버튼을 동적으로 생성 */}
-      {/* <div style={styles.buttonContainer}>
-        <button
-          className="btn btn-primary"
-          key={1}
-          type="button"
-          onClick={() => handleButtonClick("search")}
-        >
-          {"검색"}
-        </button>
-        {reset && 
-          <button
-            className="btn btn-secondary"
-            key={2}
-            type="button"
-            onClick={() => handleButtonClick("reset")}
-          >
-            {"초기화"}
-          </button>
-        }
-      </div> */}
     </div>
   );
 };
 
-// 스타일 객체
-const styles = {
-  searchBar: {
-    display: "flex",
-    justifyContent: "space-between", 
-    alignItems: "center",
-    gap: "10px", 
-    flexWrap: "wrap", 
-  },
-  inputContainer: {
-    display: "flex",
-    flex: 2,
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap", 
-    gap: '10px',
-  },
-  inputSubContainer: {
-    display: "flex",
-    alignItems: "center",
-  },
-  label: {
-    whiteSpace: "nowrap", /* 줄 바꿈을 방지 */
-    marginRight: "5px",
-    fontWeight: "bold",
-  },
-  subLabel: {
-    whiteSpace: "nowrap", /* 줄 바꿈을 방지 */
-    marginRight: "2px",
-  },
-  input: {
-    
-  },
-  select: {
-    
-  },
-  radioGroup: {
-    display: 'flex',           
-    justifyContent: 'flex-start',
-    gap: '4px',             
-  },
-  radioItem: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  checkboxGroup: {
-    display: 'flex',                
-    flexDirection: 'row',           
-    gap: '4px',                   
-  },
-  checkboxItem: {
-    display: 'flex',
-    alignItems: 'center',           
-  },
-  // buttonContainer: {
-  //   display: "flex",
-  //   gap: "10px",
-  // },
-};
+
 
 export default SearchBar;
