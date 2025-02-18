@@ -1,51 +1,38 @@
-import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import styles from '../css/Modal.module.css';
-import SearchBar from "../components/SearchBar";
 
 
 const Modal = forwardRef(( _, ref) => {
   const [isOpen, setIsOpen] = useState(false);
-  const confirmDataRef = useRef(null);
-
-  const [modalOptions, setModalOptions] = useState({
-    title:"알림",
-    message:"",
-    fields:[],
-    cancelText:"취소",
-    confirmText:"확인",
-    onCancel:()=>{setIsOpen(false)},
-    onConfirm:()=>{setIsOpen(false)},
-  });
+  const [modalOptions, setModalOptions] = useState({});
 
   // 부모 컴포넌트에서 ref를 통해 open, close를 호출할 수 있도록 설정
   useImperativeHandle(ref, () => ({
     open: (options = {}) => {
+      // 옵션 업데이트
       setModalOptions((prevOptions) => ({ 
         title:"알림",
         message:"",
         fields:[],
+        content: <div></div>,
         cancelText:"취소",
         confirmText:"확인",
         onCancel:()=>{setIsOpen(false)},
         onConfirm:()=>{setIsOpen(false)},
         ...options 
-      })); // 옵션 업데이트
+      })); 
       setIsOpen(true);
     },
     close: () => setIsOpen(false),
   }));
 
-  // 데이터 변경시 호출되는 함수
-  const handleChangeData = (data) => {
-    confirmDataRef.current = data;
-  };
 
   const onCancle = (() => {
-    modalOptions.onCancel({status:false, data:confirmDataRef.current});
+    modalOptions.onCancel(false);
   });
   
   const onConfirm = (() => {
-    modalOptions.onConfirm({status:true, data:confirmDataRef.current});
+    modalOptions.onConfirm(true);
   });
 
 
@@ -65,17 +52,9 @@ const Modal = forwardRef(( _, ref) => {
             <span>{modalOptions.message}</span>
           </div>
         )}
-        
-        {/* 동적 input 생성 */}
-        {modalOptions.fields && (
-          <div style={{ padding: "10px" }}>
-            <SearchBar
-              id={"formContext"}
-              fields={modalOptions.fields}
-              onSearchData={handleChangeData}
-            />
-          </div>
-        )}
+
+        {/* content */}
+        {modalOptions.content}
 
         {/* button */}
         <div className={styles.buttonContainer}>
@@ -87,7 +66,6 @@ const Modal = forwardRef(( _, ref) => {
               {modalOptions.cancelText}
             </button>
           )}
-
           {modalOptions.confirmText !== "" && (
             <button
               onClick={onConfirm}
@@ -97,6 +75,7 @@ const Modal = forwardRef(( _, ref) => {
             </button>
           )}
         </div>
+
       </div>
     </div>
   );
