@@ -195,7 +195,7 @@ const Forms = ({ id, fields, onSearchData, direction="horizontal" }) => {
       display: "flex",
       flex: 1,
       flexDirection: direction === "horizontal" ? "row" : "column" ,
-      alignItems: "start",
+      alignItems: direction === "horizontal" ? "center" : "start",
       flexWrap: "wrap", 
       gap: '10px',
     },

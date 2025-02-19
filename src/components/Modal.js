@@ -16,7 +16,9 @@ const Modal = forwardRef(( _, ref) => {
         fields:[],
         content: <div></div>,
         cancelText:"취소",
+        cancelClass:"btn btn-secondary",
         confirmText:"확인",
+        confirmClass:"btn btn-primary",
         onCancel:()=>{setIsOpen(false)},
         onConfirm:()=>{setIsOpen(false)},
         ...options 
@@ -61,7 +63,7 @@ const Modal = forwardRef(( _, ref) => {
           {modalOptions.cancelText !== "" && (
             <button
               onClick={onCancle}
-              className={`${styles.button} ${styles.cancelButton}`}
+              className={`${modalOptions.cancelClass}`}
             >
               {modalOptions.cancelText}
             </button>
@@ -69,7 +71,7 @@ const Modal = forwardRef(( _, ref) => {
           {modalOptions.confirmText !== "" && (
             <button
               onClick={onConfirm}
-              className={`${styles.button} ${styles.confirmButton}`}
+              className={`${modalOptions.confirmClass}`}
             >
               {modalOptions.confirmText}
             </button>

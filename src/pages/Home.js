@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SearchBar from "../components/SearchBar";
+import Forms from "../components/Forms";
 
 function Home() {
   
@@ -28,7 +28,7 @@ function Home() {
 
   return (
     <div>
-      <SearchBar id={"home"} fields={fields} onSearchData={handleSearchData} reset={true} />
+      <Forms id={"home"} fields={fields} onSearchData={handleSearchData} />
       <p>SearchBar 컴포넌트에서 전달된 데이터: {JSON.stringify(searchQuery, null, 2)}</p>
     
       <label>

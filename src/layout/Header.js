@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import CurrentTime from "../components/Today";
@@ -10,6 +10,7 @@ import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 export default function Header() {
 
   const { theme, toggleTheme } = useContext(GlobalContext);
+  const { isTab, toggleTab } = useContext(GlobalContext);
 
   const navigate = useNavigate();
 
@@ -24,8 +25,13 @@ export default function Header() {
   return (
     <div className='header d-flex justify-content-between align-items-center'>
       <div>
-        <span>Header 현재 theme: {theme} </span>
+        <span>현재 theme: {theme} </span>
         <button className="btn btn-secondary" onClick={toggleTheme}>테마 변경</button>
+
+      </div>
+      <div>
+        <span>현재 tab: {String(isTab)} </span>
+        <button className="btn btn-secondary" onClick={toggleTab}>탭기능 활성화</button>
 
       </div>
       
