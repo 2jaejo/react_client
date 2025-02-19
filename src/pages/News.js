@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import SearchBar from "../components/SearchBar";
+import Forms from "../components/Forms";
 import axiosInstance from "../utils/Axios";
 import GridExample from "../components/GridExample";
 import Buttons from "../components/Buttons";
@@ -10,6 +10,7 @@ function News() {
   const gridRef = useRef();  
   const modalRef = useRef();  
   const modalRef2 = useRef();  
+  const modalInputData = useRef();  
 
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState();
@@ -63,6 +64,7 @@ function News() {
         { key: "체크1", value: "1" },
         { key: "체크2", value: "2" },
         { key: "체크3", value: "3" },
+        { key: "체크4", value: "4" },
       ],
       className:"",
     },
@@ -74,6 +76,11 @@ function News() {
   // 검색창 데이터 변경시 호출되는 함수
   const handleSearchData = (data) => {
     setSearchQuery(data);
+  };
+
+  // 모달 입력필드 데이터 변경시 호출되는 함수
+  const handleModalData = (data) => {
+    modalInputData.current = data;
   };
 
 
@@ -118,21 +125,54 @@ function News() {
   // 추가
   const createData = (params) => {
 
+    // 버튼
+    const test_buttons = [
+        { label: "test1", className: "btn btn-sm btn-primary", onClick: ()=> alert("test1") },
+        { label: "test2", className: "btn btn-sm btn-success", onClick: ()=> alert("test2") },
+        { label: "test3", className: "btn btn-sm btn-danger", onClick: ()=> alert("test3") },
+      ];
+
+    const test_content = () => {
+      return (
+        <div className={"p-2"}>
+          <div className={"p-2"}>
+            <Buttons buttonData={test_buttons} align={"end"}/>
+          </div>
+          <div className={"p-2"}>
+            <Forms
+              id={"test"}
+              fields={fields}
+              onSearchData={handleModalData}
+              direction={"vertical"}
+              />
+          </div>
+        </div>
+      );
+    };
+
     modalRef.current.open({
-      title:"추가",
-      message:"추가하시겠습니까?",
-      fields:fields,
-      onCancel:()=>{
+      title: "추가",
+      message: "추가하시겠습니까?",
+      content: test_content(),
+      onCancel: ()=>{
         modalRef.current.close();
       },
-      onConfirm:(res) => {
-        console.log(res);
-        if(res.data.name === ""){
-          modalRef2.current.open({ title:"알림", message:"이름 없음." });
+      confirmText:"추가",
+      confirmClass:"btn btn-success",
+      onConfirm: (res) => {
+        if(modalInputData.current.name === ""){
+          modalRef2.current.open({ title:"알림", message:"이름을 입력하세요.", cancelText:"" });
           return;
-        }else{
-          modalRef.current.close();
         }
+        
+        axiosInstance
+          .post("/api/items", JSON.stringify(modalInputData.current))
+          .then((res) => {
+            getData();
+          })
+          .catch((error) => console.error("Error fetching data:", error));   
+
+        modalRef.current.close();
       },
     });
 
@@ -152,6 +192,8 @@ function News() {
     modalRef.current.open({
       title:"삭제",
       message:"진행하시겠습니까",
+      confirmText:"삭제",
+      confirmClass:"btn btn-danger",
       onCancel:()=>{
         modalRef.current.close();
       },
@@ -216,26 +258,21 @@ function News() {
  
   return (
     <div>
-
-      <p>
-        SearchBar 컴포넌트에서 전달된 데이터: {JSON.stringify(searchQuery, null, 2)}
-      </p>
-
-      <div className="py-2 d-flex justify-content-between align-items-center gap-3">
-        <div>
-          <SearchBar
+      <div className="py-2 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <div className="py-2">
+          <Forms
             id={"news"}
             fields={fields}
             onSearchData={handleSearchData}
-            reset={true}
+            direction={"horizontal"}
           />
         </div>
-        <div>
+        <div className="py-2">
           <Buttons buttonData={buttonData}/>
         </div>
       </div>
       
-      <div style={{height:"500px"}}>
+      <div style={{height:"600px"}}>
         <GridExample 
           columnDefs={columnDefs}
           rowData={rowData}

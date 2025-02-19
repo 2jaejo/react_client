@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WebSocket from "../components/WebSocket";
-import SearchBar from "../components/SearchBar";
+import Forms from "../components/Forms";
 
 // 유틸
 import axiosInstance from "../utils/Axios";
@@ -56,7 +56,7 @@ function About() {
 
   return (
     <div>
-      <SearchBar id={"about"} fields={fields} onSearchData={handleSearchData} reset={true} />
+      <Forms id={"about"} fields={fields} onSearchData={handleSearchData} />
       <p>SearchBar 컴포넌트에서 전달된 데이터: {JSON.stringify(searchQuery, null, 2)}</p>
 
       <div>{isConnect ? <WebSocket /> : <div></div>}</div>

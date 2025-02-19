@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from 'react-router-dom'; // v6: Routes와 Route 사용
 
 // 로고
@@ -15,6 +15,7 @@ import Footer from "./layout/Footer";
 import DivMenu from "./components/DivMenu";
 import TabList from "./components/TabList";
 import TabContent from "./components/TabContent";
+import Sidebar from "./components/Sidebar";
 
 // 페이지
 import Home from "./pages/Home";
@@ -23,6 +24,17 @@ import News from "./pages/News";
 import Set from "./pages/Set";
 import Help from "./pages/Help";
 import Logs from "./pages/Logs";
+import Menu31 from "./pages/Menu3_1";
+import Menu32 from "./pages/Menu3_2";
+import Menu33 from "./pages/Menu3_3";
+import Menu34 from "./pages/Menu3_4";
+import Menu41 from "./pages/Menu4_1";
+import Menu42 from "./pages/Menu4_2";
+import Menu43 from "./pages/Menu4_3";
+import Menu44 from "./pages/Menu4_4";
+import Menu51 from "./pages/Menu5_1";
+import Menu52 from "./pages/Menu5_2";
+
 
 // 유틸
 import { setupAxiosInterceptor } from "./utils/Axios";
@@ -34,6 +46,15 @@ function Main() {
   React.useEffect(() => {
     setupAxiosInterceptor(navigate);
   }, [navigate]);
+
+  const isOpen = useRef(false);
+  // const [openState, setOpenState] = useState(isOpen.current);
+  // 사이드바 토글
+  const toggleSidebar = () => {
+    console.log("toggleSidebar");
+    isOpen.current = !isOpen.current;
+  };
+
 
   const { isTab, toggleTab } = useContext(GlobalContext);
   const [key, setKey] = useState("Home"); // key 상태 초기값은 null
@@ -55,24 +76,6 @@ function Main() {
         : [...expandedMenu, menu]
     );
   };
-
-  // 로그아웃
-  // const logout = async () => {
-  //   try {
-  //     await fetch("/api/auth/logout", {
-  //       method: "POST",
-  //       credentials: "include", // 쿠키 포함
-  //     });
-
-  //     // 클라이언트 상태 초기화
-  //     localStorage.removeItem("accessToken");
-  //     alert("Logged out successfully!");
-  //   } catch (error) {
-  //     console.error("Error logging out:", error);
-  //   }
-  // };
-
-
 
   // 탭 추가
   const addTab = (menu) => {
@@ -116,6 +119,26 @@ function Main() {
         return <Help />;
       case "Logs":
         return <Logs />;
+      case "Menu3_1":
+        return <Menu31 />;
+      case "Menu3_2":
+        return <Menu32 />;
+      case "Menu3_3":
+        return <Menu33 />;
+      case "Menu3_4":
+        return <Menu34 />;
+      case "Menu4_1":
+        return <Menu41 />;
+      case "Menu4_2":
+        return <Menu42 />;
+      case "Menu4_3":
+        return <Menu43 />;
+      case "Menu4_4":
+        return <Menu44 />;
+      case "Menu5_1":
+        return <Menu51 />;
+      case "Menu5_2":
+        return <Menu52 />;
       default:
         return <div>Select a menu</div>;
     }
@@ -126,20 +149,14 @@ function Main() {
   // 메뉴 분류
   const menuList = ["Home", "About", "News"];
   const menuList2 = ["Set", "Help", "Logs"];
+  const menuList3 = ["Menu3_1", "Menu3_2", "Menu3_3", "Menu3_4"];
+  const menuList4 = ["Menu4_1", "Menu4_2", "Menu4_3", "Menu4_4"];
+  const menuList5 = ["Menu5_1", "Menu5_2"];
 
-  return (
-    <div className="main">
-      {/* 헤더 */}
-      <Header />
-
-      {/* 내비게이션 */}
-      <Navi />
-
-      {/* 메뉴리스트 */}
-      <div className="aside">
-        <span>aside 현재 tab: {String(isTab)} </span>
-        <button className="btn btn-secondary" onClick={toggleTab}>탭기능 활성화</button>
-
+  
+  const sidebar_content = () => {
+    return (
+      <div>
         <ul>
           {/* expended Menu */}
           <DivMenu
@@ -159,8 +176,49 @@ function Main() {
             handleMenuToggle={handleMenuToggle}
             addTab={addTab}
           />
+          {/* expended Menu */}
+          <DivMenu
+            title={"Menu3"}
+            className={"menu3"}
+            menuList={menuList3}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          {/* expended Menu */}
+          <DivMenu
+            title={"Menu4"}
+            className={"menu4"}
+            menuList={menuList4}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          {/* expended Menu */}
+          <DivMenu
+            title={"Menu5"}
+            className={"menu5"}
+            menuList={menuList5}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
         </ul>
       </div>
+    );
+  };
+
+
+  return (
+    <div className="main">
+      {/* 헤더 */}
+      <Header />
+
+      {/* 내비게이션 */}
+      <Navi />
+
+      {/* 메뉴리스트 */}
+      <Sidebar content={sidebar_content()}/>
 
       {/* 메인화면 */}
       <div className="article">

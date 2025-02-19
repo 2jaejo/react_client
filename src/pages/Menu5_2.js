@@ -1,14 +1,14 @@
 import React, { } from "react";
 
-function Set() {
+function Menu52() {
   
 
   return (
     
-    <div style={{height:"1000px"}}>
+    <div>
       
     </div>
   );
 }
 
-export default Set;
+export default Menu52;

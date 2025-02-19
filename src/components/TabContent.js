@@ -7,6 +7,7 @@ const TabContent = ({ tabs, activeTab, tabContents }) => {
         <div
           key={tab}
           className={`tab-pane ${activeTab === tab ? 'visible' : 'hidden'}`}
+          style={{padding:"0 0.5rem"}}
         >
           {tabContents[tab]}
         </div>

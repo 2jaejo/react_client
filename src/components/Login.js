@@ -1,18 +1,26 @@
 // LoginForm.js
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import styles from '../css/Login.module.css';
 import axiosInstance from "../utils/Axios";
 
-import { useConfirm } from "../utils/ConfirmContext";
+import Modal from "../components/Modal";
+import Forms from "../components/Forms";
+
 
 const LoginForm = () => {
   const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('admin');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { showConfirm } = useConfirm();
-  
+  const modalRef = useRef();  
+  const modalInputData = useRef(); 
+
+  // 모달 입력필드 데이터 변경시 호출되는 함수
+  const handleModalData = (data) => {
+    modalInputData.current = data;
+  };
+
   // 동적으로 생성할 입력 필드
   const fields = [
     { name: "date", 
@@ -86,18 +94,36 @@ const LoginForm = () => {
   };
 
   const joinUs = (e)=> {
-    showConfirm({
+    modalRef.current.open({
       title:"회원가입",
-      fields:fields,
-    })
-      .then((res)=>{
+      content:
+        <div className={"p-2"}>
+          
+          <div className={"p-2"}>
+            <Forms
+              id={"test"}
+              fields={fields}
+              onSearchData={handleModalData}
+              direction={"vertical"}
+              />
+          </div>
+        </div>
+      ,
+      onCancel:()=>{
+        modalRef.current.close();
+      },
+      onConfirm:(res) => {
         console.log(res);
-      });
+        console.log(modalInputData.current);
+      },
+    });
   };
 
 
   return (
     <div className={styles.wrap}>
+      <Modal ref={modalRef} />
+      
       <div className={styles.container}>
         <h2 className={styles.heading}>로그인</h2>
         <form onSubmit={handleSubmit}>

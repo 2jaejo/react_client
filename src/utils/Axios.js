@@ -30,7 +30,7 @@ export const setupAxiosInterceptor = (navigate) => {
     (response) => {
       console.log("response");
       console.log(response);
-      return response; // 정상 응답은 그대로 반환
+      return response;
     },
     (error) => {
       if (error.response) {
