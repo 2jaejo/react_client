@@ -32,7 +32,6 @@ export const GlobalProvider = ({ children }) => {
 
   const toggleSidebar = () => {
     console.log("toggleSidebar");
-    console.log(sidebar);
     setSidebar((prev) => ({
       ...prev,
       isOpen: !prev.isOpen

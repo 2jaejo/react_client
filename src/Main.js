@@ -16,6 +16,7 @@ import DivMenu from "./components/DivMenu";
 import TabList from "./components/TabList";
 import TabContent from "./components/TabContent";
 import Sidebar from "./components/Sidebar";
+import FloatingButton from "./components/FloatingButton";
 
 // 페이지
 import Home from "./pages/Home";
@@ -47,15 +48,8 @@ function Main() {
     setupAxiosInterceptor(navigate);
   }, [navigate]);
 
-  const isOpen = useRef(false);
-  // const [openState, setOpenState] = useState(isOpen.current);
-  // 사이드바 토글
-  const toggleSidebar = () => {
-    console.log("toggleSidebar");
-    isOpen.current = !isOpen.current;
-  };
 
-
+  const { sidebar, toggleSidebar } = useContext(GlobalContext);
   const { isTab, toggleTab } = useContext(GlobalContext);
   const [key, setKey] = useState("Home"); // key 상태 초기값은 null
 
@@ -210,41 +204,49 @@ function Main() {
 
 
   return (
-    <div className="main">
-      {/* 헤더 */}
-      <Header />
+    <div className="contianer">
+      {/* 사이드바 토글버튼 */}
+      <FloatingButton onClick={toggleSidebar} isOpen={sidebar.isOpen} state={sidebar.isDesktop}/>
 
-      {/* 내비게이션 */}
-      <Navi />
 
-      {/* 메뉴리스트 */}
-      <Sidebar content={sidebar_content()}/>
+      <div className="main">
+        {/* 헤더 */}
+        <Header />
 
-      {/* 메인화면 */}
-      <div className="article">
-        { isTab ?
-          <div>
-            <TabList
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              removeTab={removeTab}
-            />
-            <TabContent
-              tabs={tabs}
-              activeTab={activeTab}
-              tabContents={tabContents}
-            />
-          </div>
-        : 
-          <div style={{backgroundColor: "white", padding: "20px"}}>
-            {openPage}
-          </div> 
-        }
+        {/* 내비게이션 */}
+        <Navi />
+
+        {/* 메뉴리스트 */}
+        <Sidebar content={sidebar_content()}/>
+
+        {/* 메인화면 */}
+        <div className="article">
+
+
+          { isTab ?
+            <div>
+              <TabList
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                removeTab={removeTab}
+              />
+              <TabContent
+                tabs={tabs}
+                activeTab={activeTab}
+                tabContents={tabContents}
+              />
+            </div>
+          : 
+            <div style={{backgroundColor: "white", padding: "20px"}}>
+              {openPage}
+            </div> 
+          }
+        </div>
+
+        {/* 푸터 */}
+        <Footer />
       </div>
-
-      {/* 푸터 */}
-      <Footer />
     </div>
   );
 }
