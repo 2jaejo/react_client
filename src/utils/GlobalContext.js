@@ -48,7 +48,6 @@ export const GlobalProvider = ({ children }) => {
   // 윈도우 크기 변경 시 상태 업데이트
   useEffect(() => {
     const handleResize = () => {
-      console.log(sidebar.isDesktop);
       setSidebar({isDesktop: window.innerWidth > 768});
     };
     // 윈도우 사이즈 변경 이벤트 리스너 추가
