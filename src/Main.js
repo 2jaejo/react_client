@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom'; // v6: Routes와 Route 사용
 
 // 로고
@@ -50,7 +50,7 @@ function Main() {
 
 
   const { sidebar, toggleSidebar } = useContext(GlobalContext);
-  const { isTab, toggleTab } = useContext(GlobalContext);
+  const { isTab } = useContext(GlobalContext);
   const [key, setKey] = useState("Home"); // key 상태 초기값은 null
 
   // 확장된 메뉴를 추적하는 상태
