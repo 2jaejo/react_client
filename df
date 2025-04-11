@@ -1,0 +1,257 @@
+[33mcommit aa717576f2e46713b9c9a3b19f814065dac4311e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250225 hls player options
+
+[33mcommit 473ac9c9fbdfbe1f9f82fc3864aa55c6f6c1054d[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250224 hls player 구현
+
+[33mcommit 1798da255203d98167b1136d6daa7020eaec90df[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250220 플로팅버튼 컴포넌트 추가
+
+[33mcommit 580b6e6ed387eab133e598ac62ded0ee6b4d28ac[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250219 사이드바 컴포넌트 추가
+
+[33mcommit bb5a35bf1dee976e4ac6ff05bb32c036baca7e8a[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250218 SearchBar -> Forms 컴포넌트 파일명 변경
+
+[33mcommit 7a64ebe247d964c014aa9c5890eba484ca33eeea[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250218 모달 수정
+
+[33mcommit cc4d034ff9033e8984dae87881c62ec3004bc0ea[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    버튼 간격 변경
+
+[33mcommit ad8a8744ee5a189a2c92dea470857d05db8beb6b[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250218 입력필드 옵션 변경
+
+[33mcommit ea344c60299d0e4b509a5c33af42e5b41cd7b4df[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250217 모달 전역 -> 컴포넌트화 변경 사용성 개선
+
+[33mcommit faa6f7862c08abfff97cacd8b027b7fc880bc70e[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250213
+
+[33mcommit a841a4a20c432dafd06c514f02598ce3ceec4431[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250213 confirm component + provider
+
+[33mcommit b8695530751dfeaee0d721c69c9524dfc6b88594[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250213 기본 sort icon 표현
+
+[33mcommit 56ade7bca1c74df11bf84ce375bc7079cc87d6b1[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250212
+
+[33mcommit 5551ad5ec52ca37d773bd644d284f88aa33219dd[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250212 http 통신 no-cashe 설정
+
+[33mcommit 9b62056c33b484296e5929541bdd5e44864ea471[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250212 ag grid header align css 추가
+
+[33mcommit 67879303667ee07d32d0c19588d788f5b4100c4d[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250212 ag grid locale 의존성 추가
+
+[33mcommit 9a409fea947f88b9c4a8a24c1c825ddad5b1003a[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250212 ag grid locale 의존성 추가
+
+[33mcommit 1921eb0b9b1a60e084a14d2ac472d4e51d5b0575[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250212 검색창 버튼 삭제
+
+[33mcommit 54cf3002044599d46ec1a4f67bda681b9d55d7cd[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250211 agGrid 컴포넌트 추가작업중
+
+[33mcommit bb33650bfd75457731c91d76772db5791da13628[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    200211 검색창 checkbox 기본값 설정
+
+[33mcommit a785a6b40b11c98a2a4663d87a76ed467f11af64[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250210 ag grid 조회, 수정 기능
+
+[33mcommit 6ac0cf2095725fe76cc9d2f65951319e65a5d1bd[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250210 검색창컴포넌트 데이터 핸들링 에러 수정
+
+[33mcommit b40b5368c52216003361f7b07c0cade0d0947a4a[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250207 탭사용 변경 기능 추가
+
+[33mcommit 9217bc97ffb4535c198c794f5868a68f708799b2[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250207 ag grid 테스트
+
+[33mcommit 6ebd8ebe8d7403f0eb2bbfd78a4799ed4c4618a2[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250207 기본 fetch 인터셉터 적용
+
+[33mcommit 9ffd3f685bc4f7afa5e130950c8f35e18840802a[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250507 menu transition set
+
+[33mcommit e9496784c8d914fc80383b2a30531dafac7e48d6[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250207 themeProvidor 구현 테스트
+
+[33mcommit 01c9d107e50eea4f751e14cc302e479b16272f75[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250206 검색바 컴포넌트 추가
+
+[33mcommit 41f08364792fa215dda6812c7373f0675cbce395[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250205 포트변경 및 검색창 컴포넌트 개발중
+
+[33mcommit 81218caed60d78f184e3589882982c1dc8902d77[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250131 opcua -> websocket
+
+[33mcommit f3018d5a4d350a43f90688cf8056b8129d188a9c[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250124 웹소켓 구독 기능
+
+[33mcommit 6d505be990b4177f19ec1c50d758f040594faa82[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250120
+
+[33mcommit ef14edc0a87bbc7a1a3eb3a3ffe8d2655cab7333[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250117
+
+[33mcommit 205c7cab83bf9fb42dbd08578afb298604d3e422[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250117
+
+[33mcommit 7f671c411a0c19bd7bce32e05f8aff3c98dcc301[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250117
+
+[33mcommit 36346ccb1bbe5f01250a2c3ffb2c88c7c1ede304[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    test
+
+[33mcommit 5a78c53377ed9df5f37b1506fd3e7022d8b59028[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250116
+
+[33mcommit e3c83fa74d76cd7da62685c72a39a61ac5d87315[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    CRUD 테스트
+
+[33mcommit c818fbe5d5d430ee513f8cabf07c548acf7f9fa6[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    api 통신 테스트
+
+[33mcommit 72bff052017e4109743be60527697f3608f4a5e1[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    tui grid, bootstrap 적용
+
+[33mcommit 96aa717c3d238c8ca78eb16aa2603673ed8f95e5[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    250103
+
+[33mcommit 548cc252c5161770dfdfaa5dd15c0814687c7fec[m
+Author: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+Commit: DESKTOP-1DIAT6B\abh <ekenzo@naver.com>
+
+    tab state
+
+[33mcommit f2bbccf79b569a911229d93166e76c8831aa028b[m
+Author: ekenzo <ekenzo@naver.com>
+Commit: ekenzo <ekenzo@naver.com>
+
+    react example

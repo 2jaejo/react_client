@@ -146,6 +146,10 @@ function Main() {
   const menuList3 = ["Menu3_1", "Menu3_2", "Menu3_3", "Menu3_4"];
   const menuList4 = ["Menu4_1", "Menu4_2", "Menu4_3", "Menu4_4"];
   const menuList5 = ["Menu5_1", "Menu5_2"];
+  const menuList6 = ["Menu5_1", "Menu5_2"];
+  const menuList7 = ["Menu5_1", "Menu5_2"];
+  const menuList8 = ["Menu5_1", "Menu5_2"];
+  const menuList9 = ["Menu5_1", "Menu5_2"];
 
   
   const sidebar_content = () => {
@@ -154,8 +158,8 @@ function Main() {
         <ul>
           {/* expended Menu */}
           <DivMenu
-            title={"Menu1"}
-            className={"menu1"}
+            title={"기준정보관리"}
+            className={"stdInfo"}
             menuList={menuList}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
@@ -163,8 +167,8 @@ function Main() {
           />
           {/* expended Menu */}
           <DivMenu
-            title={"Menu2"}
-            className={"menu2"}
+            title={"자재관리"}
+            className={"materialMngt"}
             menuList={menuList2}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
@@ -172,8 +176,8 @@ function Main() {
           />
           {/* expended Menu */}
           <DivMenu
-            title={"Menu3"}
-            className={"menu3"}
+            title={"재고관리"}
+            className={"inventoryMngt"}
             menuList={menuList3}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
@@ -181,8 +185,8 @@ function Main() {
           />
           {/* expended Menu */}
           <DivMenu
-            title={"Menu4"}
-            className={"menu4"}
+            title={"영업관리"}
+            className={"salesMngt"}
             menuList={menuList4}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
@@ -190,9 +194,41 @@ function Main() {
           />
           {/* expended Menu */}
           <DivMenu
-            title={"Menu5"}
-            className={"menu5"}
+            title={"생산관리"}
+            className={"productionMngt"}
             menuList={menuList5}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          <DivMenu
+            title={"제품재고관리"}
+            className={"pdt"}
+            menuList={menuList6}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          <DivMenu
+            title={"모니터링"}
+            className={"motitoring"}
+            menuList={menuList7}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          <DivMenu
+            title={"시스템관리"}
+            className={"sysMngt"}
+            menuList={menuList8}
+            expandedMenu={expandedMenu}
+            handleMenuToggle={handleMenuToggle}
+            addTab={addTab}
+          />
+          <DivMenu
+            title={"POP"}
+            className={"pop"}
+            menuList={menuList9}
             expandedMenu={expandedMenu}
             handleMenuToggle={handleMenuToggle}
             addTab={addTab}
